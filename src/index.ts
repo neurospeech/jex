@@ -49,6 +49,7 @@ export const invoke = async (name: string , args: string[]) => {
         }
         await node.execute();
     } catch (error) {
+        console.log(args);
         console.error(error);
     }
 
@@ -66,6 +67,7 @@ if (process.argv.length) {
 
     // third arg onwards should be the batch that we would like to execute...
     const [program, script, ... args] = process.argv;
+    invoke(script, args).catch(console.error);
 
     
 }
