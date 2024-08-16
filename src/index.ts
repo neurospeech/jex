@@ -3,6 +3,7 @@
 import { unlinkSync } from "fs";
 import { Babel } from "./core/babel.js";
 import XNode from "./core/XNode.js";
+import { pathToFileURL } from "url";
 
 export { default as XNode } from "./core/XNode.js";
 
@@ -21,7 +22,7 @@ export const invoke = async (name: string , args: string[]) => {
             name = js;
         }
 
-        const {default: fx} = await import(name);
+        const {default: fx} = await import(pathToFileURL(name).toString());
         const options: any = {
         };
 
