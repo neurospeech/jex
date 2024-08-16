@@ -71,8 +71,12 @@ if (process.argv.length) {
     // second arg will be the jex runner script
 
     // third arg onwards should be the batch that we would like to execute...
-    const [program, script, ... args] = process.argv;
-    invoke(script, args).catch(console.error);
+    const [program, self, name, ... args] = process.argv;
+    if (name) {
+        invoke(name, args).catch(console.error);
+    } else {
+        console.log(`Usage: jex script-name.jsex ... args`);
+    }
 
     
 }
