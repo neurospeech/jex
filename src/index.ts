@@ -23,6 +23,10 @@ export const invoke = async (name: string , args: string[]) => {
         }
 
         const {default: fx} = await import(pathToFileURL(name).toString());
+
+        if (!fx) {
+            // script must have executed automatically and may not have default export
+        }
         const options: any = {
         };
 
