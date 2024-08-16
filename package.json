@@ -1,6 +1,6 @@
 {
   "name": "jex",
-  "version": "1.0.6",
+  "version": "1.0.7",
   "description": "Easy shell scripting with JavaScript and E4X (Similar to JSX)",
   "main": "index.js",
   "type": "module",
