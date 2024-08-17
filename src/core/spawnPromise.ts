@@ -20,7 +20,7 @@ export const spawnPromise = (path, args?: (string | Secret)[], options?: SpawnOp
     const dataList = [];
     const errorList = [];
     const allList = [];
-    const { logCommand = true, throwOnFail = false, logData = true, logError = true, log, error } = options ?? {};
+    const { logCommand = true, throwOnFail = true, logData = true, logError = true, log, error } = options ?? {};
     const cd = spawn(path, args.map((x) => x instanceof Secret ? x.secret : x), options);
     const pid = cd.pid;
     if (logCommand) {

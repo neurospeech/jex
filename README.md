@@ -11,8 +11,13 @@ Easy shell scripting with JavaScript and E4X (Similar to JSX)
 
 # Jex Script
 
-Jex script is a simple JSX file, with slightly different execution sequence. Typical JSX nodes are converted to an organized set of node, attributes and children. However, in this JSX to JS transformation, children are created array of arrow function returning the child. This allows us
-to put some JavaScript code between multiple commands.
+Jex script is a simple JSX file, with slightly different execution sequence.
+
+Typical JSX nodes are converted to an organized set of nodes, and each properties are set at time of creation. Jex processes JSX nodes little differently, each child node is created at time of execution, so values of previous node can be considered as an input to next node.
+
+This allows us to put some JavaScript code between multiple commands. In the given example, you will see that first command receives version and it is stored, in next command we are printing same version.
+
+Each command executes asynchronously and you can easily break or continue execution based on previous step's result without having to write async/await.
 
 # Getting Started
 ```bash
@@ -32,7 +37,7 @@ invoke(<Batch>
         finished={(x) => version = x.text.trim() }
         />
     { /** Execute Code in the curly braces, it will not print on console */
-        version = version + "..." }
+        version = `Installed node version is ${version}` }
     <Log
         text={version}
         />
