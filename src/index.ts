@@ -33,9 +33,12 @@ export const Log = ({ text = void 0 , error = void 0 }) => {
     }
 };
 
-export const run = (node: XNode) => node.execute();
+export const invoke = async (name: string | XNode , args?: string[]) => {
 
-export const invoke = async (name: string , args: string[]) => {
+    if (name instanceof XNode) {
+        return name.execute();
+    }
+
     let js = "";
 
     try {

@@ -1,20 +1,31 @@
-import { Batch, Run, run, Log } from "./dist/index.js";
+import { Batch, Run, invoke, Log } from "./dist/index.js";
 
-const scope = {
-    version: ""
-};
+let version = "";
 
-run(<Batch>
+invoke(<Batch>
 
     <Run
-        path="node"
+        cmd="node"
         args={["--version"]}
         logData={false}
-        finished={(x) => scope.version = x.all.trim() }
+        finished={(x) => version = x.text.trim() }
         />
-    
+
+    {
+        /** Execute Code in the curly braces, this will not be printed. */
+        version = version + "..."
+    }
+
     <Log
-        text={scope.version}
+        text={version}
+        />
+
+    { /** Print following text directly on console... */}
+    Running Node Directly...
+
+    <Run
+        cmd="node"
+        args="--version"
         />
     
 </Batch>)

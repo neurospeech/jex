@@ -2,12 +2,32 @@ import { spawnPromise } from "./spawnPromise.js";
 import XNode from "./XNode.js";
 
 export interface IProcessResult {
-    all: string;
+    text: string;
+    error: string[];
+    data: Buffer[];
     pid: number;
     status: number;
 }
 
-export default async function Run({ path, args,
+export interface IRunArgs {
+    cmd: string,
+    args?: string | string[],
+    cwd?: string,
+    detached?: boolean,
+    logCommand?: boolean,
+    logData?: boolean,
+    logError?: boolean,
+    log?: (data: Buffer) => void,
+    error?: (data: Buffer) => void,
+    started?: (pid: number) => void,
+    finished?: (r: IProcessResult) => void,
+    failed?: (r: IProcessResult) => void
+
+}
+
+export default async function Run({
+    cmd,
+    args = void 0,
     cwd = void 0,
     detached = false,
     logCommand = true,
@@ -18,8 +38,13 @@ export default async function Run({ path, args,
     started = void 0 as (pid: number) => void,
     finished = void 0 as (r: IProcessResult) => void,
     failed = void 0 as (r: IProcessResult) => void
-}) {
-    const r = await spawnPromise(path, args, {
+}: IRunArgs) {
+
+    if (typeof args === "string") {
+        args = args.split(" ");
+    }
+
+    const r = await spawnPromise(cmd, args, {
         cwd,
         detached,
         logCommand,

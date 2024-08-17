@@ -10,36 +10,47 @@ export const spawnPromise = (path, args?: string[], options?: SpawnOptionsWithou
     log?: (data: Buffer) => void,
     error?: (data: Buffer) => void,
     throwOnFail?: boolean }) => new Promise<{
-    get all(): string;
+    get data(): Buffer[];
+    get error(): string[];
+    get text(): string;
     pid: number;
     status: number;
 }>((resolve, reject) => {
-    const all = [];
+    const dataList = [];
+    const errorList = [];
+    const allList = [];
     const { logCommand = true, throwOnFail = false, logData = true, logError = true, log, error } = options ?? {};
     const cd = spawn(path, args, options);
     const pid = cd.pid;
+    if (logCommand) {
+        console.log(`${path} ${args.join(" ")}`);
+    }
     cd.stdout.on("data", (data) => {
         if (log) {
             log(data);
         }
+        dataList.push(data);
+        allList.push(data);
         if (logData) {
-            data = data.toString("utf8");
-            all.push(data);
+            console.log(data.toString("utf8"));
         }
     });
     cd.stderr.on("data", (data) => {
+        allList.push(data);
+        data = data.toString("utf8");
         if (error) {
-            log(data);
+            error(data);
         }
-        if(logError) {
-            data = data.toString("utf8");
-            all.push(color.red(data));
+        errorList.push(data);
+        if (logError) {
+            console.error(data);
         }
     });
 
     cd.on("error", (error) => {
         const errorText = color.red(error.stack ?? error.toString());
-        all.push(error.stack ?? error.toString());
+        errorList.push(error.stack ?? error.toString());
+        allList.push(error.stack ?? error.toString());
         if (logData || logError) {
             console.error(errorText);
         }
@@ -48,22 +59,19 @@ export const spawnPromise = (path, args?: string[], options?: SpawnOptionsWithou
     cd.on("close", (status) => {
         if (status>0) {
             if (throwOnFail) {
-                if (logError) {
-                    console.error(all);
-                }
-                reject(new Error(all.join("\n")));
+                reject(new Error(errorList.join("\n")));
                 return;
             }
         }
-        if (logCommand) {
-            console.log(`${path} ${args.join(" ")}`);
-            if (logData) {
-                console.log(all.join("\n"));
-            }
-        }
         resolve({
-            get all() {
-                return all.join("\n");
+            get data() {
+                return dataList;
+            },
+            get error() {
+                return errorList;
+            },
+            get text() {
+                return allList.map((x) => typeof x === "string" ? x : x.toString("utf8")).join("\n");
             },
             pid,
             status });

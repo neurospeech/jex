@@ -9,23 +9,47 @@ const presets = {
     comments: false,
     getModuleId: () => "v",
     "plugins": [
-        // ["@babel/plugin-transform-react-jsx", {
-        //     pragma: "XNode.create",        
-        // }]
         ["@babel/plugin-syntax-jsx"],
         [
-            function(babel, ... a) {
-                console.log(babel);
+            function(babel) {
                 return {
                     name: "JSX Transformer",
                     visitor: {
                         JSXElement(node) {
-                            console.log(node);
+                            if (node.node.children?.length) {
+                                const copy = [... node.node.children];
+                                const transformed = node.node.children = [];
+                                for (const element of copy) {
+                                    switch(element.type) {
+                                        case "JSXText":
+                                            transformed.push(babel.types.arrowFunctionExpression([], babel.types.stringLiteral(element.value)));
+                                            continue;
+                                        case "JSXExpressionContainer":
+                                            if (element.expression.type === "JSXEmptyExpression") {
+                                                continue;
+                                            }
+                                            transformed.push(
+                                                babel.types.arrowFunctionExpression(
+                                                    [], babel.types.sequenceExpression([element.expression, babel.types.nullLiteral()])
+                                                )
+                                            );
+                                            continue;
+                                        case "JSXEmptyExpression":
+                                            continue;
+                                    }
+                                    transformed.push(babel.types.arrowFunctionExpression([], element));
+                                }
+                            }
+                            return node;
                         }
                     }
                 };
             }
-        ]
+        ],
+        ["@babel/plugin-transform-react-jsx", {
+            pragma: "XNode.create",        
+        }]
+
     ]
 };
 const inject = process.env.TEST_MODE
