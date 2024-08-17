@@ -14,6 +14,11 @@ Easy shell scripting with JavaScript and E4X (Similar to JSX)
 Jex script is a simple JSX file, with slightly different execution sequence. Typical JSX nodes are converted to an organized set of node, attributes and children. However, in this JSX to JS transformation, children are created array of arrow function returning the child. This allows us
 to put some JavaScript code between multiple commands.
 
+# Getting Started
+```bash
+npm install -g @neurospeech/jsx
+```
+
 # Example
 node-version.jsx
 ```jsx
