@@ -34,7 +34,7 @@ export const Log = ({ text = void 0 , error = void 0 }) => {
     }
 };
 
-export const mask = (secret: string) => new Secret(secret);
+export const mask = (secret: string | Secret) => secret instanceof Secret ? secret : new Secret(secret);
 
 export const invoke = async (name: string | XNode , args?: string[]) => {
 
