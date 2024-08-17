@@ -1,6 +1,6 @@
 // load and execute script...
 
-import { unlinkSync } from "fs";
+import { unlink, unlinkSync } from "fs";
 import { Babel } from "./core/babel.js";
 import XNode from "./core/XNode.js";
 import { pathToFileURL } from "url";
@@ -54,6 +54,9 @@ export const invoke = async (name: string | XNode , args?: string[]) => {
 
         if (!fx) {
             // script must have executed automatically and may not have default export
+            if (js) {
+                unlinkSync(js);
+            }
             return;
         }
         const options: any = {
