@@ -34,6 +34,8 @@ export const Log = ({ text = void 0 , error = void 0 }) => {
     }
 };
 
+const deleteFile = true;
+
 export const mask = (secret: string | Secret) => secret instanceof Secret ? secret : new Secret(secret);
 
 export const invoke = async (name: string | XNode , args?: string[]) => {
@@ -54,7 +56,7 @@ export const invoke = async (name: string | XNode , args?: string[]) => {
 
         if (!fx) {
             // script must have executed automatically and may not have default export
-            if (js) {
+            if (js && deleteFile) {
                 unlinkSync(js);
             }
             return;
@@ -90,7 +92,7 @@ export const invoke = async (name: string | XNode , args?: string[]) => {
         console.error(error);
     }
 
-    if (js) {
+    if (js && deleteFile) {
         unlinkSync(js);
     }
 

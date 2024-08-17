@@ -2,6 +2,15 @@ import { Batch, Run, invoke, Log } from "./dist/index.js";
 
 let version = "";
 
+const Node = {
+    Version() {
+        return <Run
+            cmd="node"
+            args={["--version"]}
+            />
+    }
+};
+
 invoke(<Batch>
 
     <Run
@@ -27,5 +36,7 @@ invoke(<Batch>
         cmd="node"
         args="--version"
         />
+
+    <Node.Version/>
     
 </Batch>)
