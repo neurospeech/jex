@@ -17,7 +17,7 @@ export default class XNode {
     }
 
     async execute() {
-        return this.name(this.attributes, this.children);
+        return this.name(this.attributes ?? {}, ... this.children);
     }
 
 }

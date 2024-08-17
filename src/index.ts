@@ -13,6 +13,28 @@ export { default as Run } from "./core/Run.js";
 
 // execute passed script...
 
+export const Log = ({ text = void 0 , error = void 0 }) => {
+    if (text) {
+        if(Array.isArray(text)) {
+            console.log(... text);
+        } else {
+            console.log(text);
+        }
+        return;
+    }
+
+    if (error) {
+        if(Array.isArray(text)) {
+            console.error(... text);
+        } else {
+            console.error(text);
+        }
+        return;
+    }
+};
+
+export const run = (node: XNode) => node.execute();
+
 export const invoke = async (name: string , args: string[]) => {
     let js = "";
 

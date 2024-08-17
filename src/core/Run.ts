@@ -11,7 +11,7 @@ export default async function Run({ path, args,
     cwd = void 0,
     detached = false,
     logCommand = true,
-    logData = false,
+    logData = true,
     logError = true,
     log = void 0 as (data: Buffer) => void,
     error = void 0 as (data: Buffer) => void,
@@ -31,10 +31,10 @@ export default async function Run({ path, args,
 
     let fxr = void 0;
 
-    if (r.status === 0 && finished) {
-        fxr = finished(r);
+    if (r.status === 0) {
+        fxr = finished?.(r);
     } else {
-        fxr = failed(r);
+        fxr = failed?.(r);
     }
 
     if (fxr) {
