@@ -6,7 +6,7 @@ export default async function Batch({}, ... commands: (() => XNode | string)[]) 
         if (typeof element === "function") {
             element = element();
         }
-        if (element instanceof XNode) {
+        if (element.execute) {
             await element.execute();
             continue;
         }
