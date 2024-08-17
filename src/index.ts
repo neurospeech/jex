@@ -26,6 +26,7 @@ export const invoke = async (name: string , args: string[]) => {
 
         if (!fx) {
             // script must have executed automatically and may not have default export
+            return;
         }
         const options: any = {
         };
