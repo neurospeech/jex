@@ -18,7 +18,7 @@ export default class XNode {
 
     async execute() {
         const r = this.name(this.attributes ?? {}, ... this.children);
-        if (r instanceof XNode) {
+        if (r?.execute) {
             return r.execute();
         }
         return r;

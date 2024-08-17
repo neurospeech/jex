@@ -40,7 +40,7 @@ export const mask = (secret: string | Secret) => secret instanceof Secret ? secr
 
 export const invoke = async (name: string | XNode , args?: string[]) => {
 
-    if (name instanceof XNode) {
+    if (typeof name !== "string") {
         return name.execute();
     }
 
