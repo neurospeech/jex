@@ -1,6 +1,6 @@
 import { transform } from "@babel/core";
 import { readFile, writeFile } from "fs/promises";
-import { format, parse } from "path";
+import { format, join, parse } from "path";
 
 const presets = {
     sourceType: "module",
@@ -52,9 +52,8 @@ const presets = {
 
     ]
 };
-const inject = process.env.TEST_MODE
-    ? `import { XNode } from "./dist/index.js"`
-    : `import { XNode } from "@neurospeech/jex/dist/index.js"`;
+const root = join(import.meta.url.replaceAll("\\","/"), "..", "..","index.js" ).replaceAll("\\" ,"/");
+const inject = `import { XNode } from "${ root}"`;
 
 export class Babel {
 
