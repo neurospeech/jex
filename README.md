@@ -150,3 +150,5 @@ export const Security = {
 1. When commands are organized in library, while editing, code editor will provide intellisense along with compile time error for missing arguments.
 2. Arguments can be well defined and encoded easily within the code.
 3. You can easily utilize node's API.
+4. This is a viable alternative of yml files. As every jex library can easily incorporate required arguments needed along with jsdoc help.
+5. This can be used in CI/CD, that can be truly platform independent, so same build script can be used in any DevOp environment wherever node is installed.
