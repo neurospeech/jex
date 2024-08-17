@@ -88,7 +88,7 @@ export const invoke = async (name: string | XNode , args?: string[]) => {
         }
         await node.execute();
     } catch (error) {
-        console.log(args);
+        console.log(name);
         console.log(process.argv);
         console.error(error);
     }
