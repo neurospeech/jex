@@ -114,6 +114,7 @@ if (process.argv.length) {
         invoke(name, args).catch(console.error);
     } else {
         console.log(`Usage: jex script-name.jsx ... args`);
+        console.log(`Received: ${process.argv}`);
     }
 
     
