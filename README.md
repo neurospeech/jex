@@ -37,6 +37,8 @@ invoke(<Batch>
         cmd="node"
         args="--version"
         />
+    {   /** call console.warn in an expression */
+        console.warn("Warning !!")}
 </Batch>)
 ```
 
