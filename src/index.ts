@@ -4,6 +4,7 @@ import { unlinkSync } from "fs";
 import { Babel } from "./core/babel.js";
 import XNode from "./core/XNode.js";
 import { pathToFileURL } from "url";
+import { Secret } from "./core/Secret.js";
 
 export { default as XNode } from "./core/XNode.js";
 
@@ -32,6 +33,8 @@ export const Log = ({ text = void 0 , error = void 0 }) => {
         return;
     }
 };
+
+export const mask = (secret: string) => new Secret(secret);
 
 export const invoke = async (name: string | XNode , args?: string[]) => {
 

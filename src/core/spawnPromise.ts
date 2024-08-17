@@ -2,8 +2,9 @@
 import { SpawnOptionsWithoutStdio, spawn } from "node:child_process";
 
 import { color } from "console-log-colors";
+import { Secret } from "./Secret.js";
 
-export const spawnPromise = (path, args?: string[], options?: SpawnOptionsWithoutStdio & {
+export const spawnPromise = (path, args?: (string | Secret)[], options?: SpawnOptionsWithoutStdio & {
     logCommand?: boolean,
     logData?: boolean,
     logError?: boolean,
@@ -20,7 +21,7 @@ export const spawnPromise = (path, args?: string[], options?: SpawnOptionsWithou
     const errorList = [];
     const allList = [];
     const { logCommand = true, throwOnFail = false, logData = true, logError = true, log, error } = options ?? {};
-    const cd = spawn(path, args, options);
+    const cd = spawn(path, args.map((x) => x instanceof Secret ? x.secret : x), options);
     const pid = cd.pid;
     if (logCommand) {
         console.log(`${path} ${args.join(" ")}`);

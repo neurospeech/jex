@@ -84,6 +84,8 @@ invoke(<Batch>
 
 security.jsx
 ```jsx
+import { mask } from "@neurospeech/jex/dist/index.js";
+
 //These are reusable functions...
 export const Security = {
     
@@ -93,7 +95,7 @@ export const Security = {
     }) {
         return <Run
             cmd="security"
-            args={["create-keychain", "-p", password, path]}
+            args={["create-keychain", "-p", mask(password), path]}
             />
     },
 
@@ -113,7 +115,7 @@ export const Security = {
     }) {
         return <Run
             cmd="security"
-            args={["unlock-keychain", "-p", password, path]}
+            args={["unlock-keychain", "-p", mask(password), path]}
             />
     },
 
@@ -127,7 +129,7 @@ export const Security = {
         return <Run
             cmd="security"
             args={["import", certPath,
-            "-P", certPass,
+            "-P", mask(certPass),
             "-A",
             "-t", cert,
             "-f", format,
