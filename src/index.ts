@@ -56,9 +56,6 @@ export const invoke = async (name: string | XNode , args?: string[]) => {
 
         if (!fx) {
             // script must have executed automatically and may not have default export
-            if (js && deleteFile) {
-                unlinkSync(js);
-            }
             return;
         }
         const options: any = {
@@ -91,10 +88,10 @@ export const invoke = async (name: string | XNode , args?: string[]) => {
         console.log(name);
         console.log(process.argv);
         console.error(error);
-    }
-
-    if (js && deleteFile) {
-        unlinkSync(js);
+    } finally {
+        if (js && deleteFile) {
+            unlinkSync(js);
+        }    
     }
 
 }
