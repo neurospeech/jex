@@ -27,9 +27,9 @@ npm install -g @neurospeech/jsx
 # Example
 node-version.jsx
 ```jsx
-import { Batch, Run, invoke, Log } from "./dist/index.js";
+import { Batch, Run, invoke, Log } from "@neurospeech/jex/index.js";
 let version = "";
-invoke(<Batch>
+await invoke(<Batch>
     <Run
         cmd="node"
         args={["--version"]}
@@ -38,17 +38,13 @@ invoke(<Batch>
         />
     { /** Execute Code in the curly braces, it will not print on console */
         version = `Installed node version is ${version}` }
-    <Log
-        text={version}
-        />
-    { /** Print following text directly on console... */}
-    Running Node Directly...
+
+    { console.log(version) }
+
     <Run
         cmd="node"
         args="--version"
         />
-    {   /** call console.warn in an expression */
-        console.warn("Warning !!")}
 </Batch>)
 ```
 
@@ -65,7 +61,7 @@ jex node-version.jsx
 Lets see little complicated example. Following file is referring security.jsx which contains reusable commands.
 
 ```jsx
-import { Security } from "security.jsx";
+import { Security } from "@neurospeech/jex/dist/ci/mac/Security.js";
 // install certificate
 
 const certPath = "cert.p12";
@@ -73,7 +69,7 @@ const certPass = process.env.CERT_PASS;
 const keychainPass = process.env.CERT_PASS;
 const keychainPath = "CERT_KEY_CHAIN";
 
-invoke(<Batch>
+await invoke(<Batch>
     <Security.CreateKeyChain
         path={keychainPath}
         password={keychainPass}
@@ -94,66 +90,13 @@ invoke(<Batch>
 </Batch>);
 ```
 
-security.jsx
-```jsx
-import { mask } from "@neurospeech/jex/dist/index.js";
-
-//These are reusable functions...
-export const Security = {
-    
-    CreateKeychain({
-        password,
-        path
-    }) {
-        return <Run
-            cmd="security"
-            args={["create-keychain", "-p", mask(password), path]}
-            />
-    },
-
-    SetKeychainSettings({
-        lut = 21600,
-        path
-    }) {
-        return <Run
-            cmd="security"
-            args={["set-keychain-settings", "-lut", lut, path]}
-            />
-    },
-
-    UnlockKeychain({
-        password,
-        path
-    }) {
-        return <Run
-            cmd="security"
-            args={["unlock-keychain", "-p", mask(password), path]}
-            />
-    },
-
-    Import({
-        certPath,
-        certPass,
-        keychainPath,
-        format = "pkcs12",
-        type = "cert",
-    }) {
-        return <Run
-            cmd="security"
-            args={["import", certPath,
-            "-P", mask(certPass),
-            "-A",
-            "-t", cert,
-            "-f", format,
-            "-k", keychainPath]}
-            />;
-    },
-}
-```
-
 # Features
 1. When commands are organized in library, while editing, code editor will provide intellisense along with compile time error for missing arguments.
 2. Arguments can be well defined and encoded easily within the code.
 3. You can easily utilize node's API.
 4. This is a viable alternative of yml files. As every jex library can easily incorporate required arguments needed along with jsdoc help.
 5. This can be used in CI/CD, that can be truly platform independent, so same build script can be used in any DevOp environment wherever node is installed.
+
+# Library Authoring
+
+To create reusable functions for jex, you should not transform JSX to JS, instead use `jex parse folder` to transform your JSX to JS.
