@@ -21,7 +21,10 @@ Each command executes asynchronously and you can easily break or continue execut
 
 # Getting Started
 ```bash
+# This is to execute using jex
 npm install -g @neurospeech/jsx
+# This is for imports
+npm install @neurospeech/jsx
 ```
 
 # Example
@@ -58,16 +61,20 @@ jex node-version.jsx
 
 # Not Impressed?
 
-Lets see little complicated example. Following file is referring security.jsx which contains reusable commands.
+Lets see little complicated example. Following file is referring mac commands to install certificate and upload the app file to Apple Connect.
 
 ```jsx
 import { Security } from "@neurospeech/jex/dist/ci/mac/Security.js";
+import { XCRun } from "@neurospeech/jex/dist/ci/mac/XCRun.js";
 // install certificate
 
 const certPath = "cert.p12";
 const certPass = process.env.CERT_PASS;
 const keychainPass = process.env.CERT_PASS;
 const keychainPath = "CERT_KEY_CHAIN";
+const appPath = process.env.IOS_APP;
+const apiKeyId = process.env.IOS_API_KEY_ID;
+const issuerId = process.env.IOS_ISSUER_ID;
 
 await invoke(<Batch>
     <Security.CreateKeyChain
@@ -86,6 +93,12 @@ await invoke(<Batch>
         certPath={certPath}
         certPass={certPass}
         keychainPath={keychainPath}
+        />
+
+    <XCRun.UploadApp
+        appPath={appPath}
+        apiKeyId={apiKeyId}
+        issuerId={issuerId}
         />
 </Batch>);
 ```

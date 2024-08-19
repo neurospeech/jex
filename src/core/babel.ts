@@ -56,11 +56,14 @@ const presets = {
 const root = join(import.meta.url.replaceAll("\\","/"), "..", "..","index.js" ).replaceAll("\\" ,"/");
 const inject = `import { XNode } from "${ root}"`;
 
+// const rootPath = join(import.meta.dirname, "..", "..");
+
 export class Babel {
 
 
     static async transformJSX(file: string, outputFile?: string) {
-        const code = await readFile(file, "utf8");
+        let code = await readFile(file, "utf8");
+        // code = code.replaceAll("@neurospeech/jex", rootPath);
         const finalCode = `${inject};${code}`;
         const p = { ... presets };
         if (outputFile) {
