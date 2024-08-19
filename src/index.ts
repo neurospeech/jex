@@ -6,6 +6,7 @@ import XNode from "./core/XNode.js";
 import { pathToFileURL } from "url";
 import { Secret } from "./core/Secret.js";
 import { cli } from "./core/CLI.js";
+import { resolve } from "path";
 
 export { default as XNode } from "./core/XNode.js";
 
@@ -54,6 +55,11 @@ export const invoke = async (name: string | XNode , args?: string[]) => {
         if (name.endsWith(".jsx")) {
             js = await Babel.transformJSX(name);
             name = js;
+        }
+
+        // to absolute
+        if (name.startsWith(".")) {
+            name = resolve(name);
         }
 
         const {default: fx} = await import(pathToFileURL(name).toString());
