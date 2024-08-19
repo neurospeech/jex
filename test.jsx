@@ -1,6 +1,8 @@
-import { Batch, Run, invoke, Log } from "./dist/index.js";
+import { Batch, Run, invoke, Log, Prompt } from "./dist/index.js";
 
 let version = "";
+
+let type = "";
 
 const Node = {
     Version() {
@@ -39,5 +41,11 @@ invoke(<Batch>
         />
 
     <Node.Version/>
+
+    <Prompt
+        message="Type"
+        choices={["one", "two", "three"]}
+        then={(value) => type = value}
+        />
     
 </Batch>)

@@ -12,6 +12,9 @@ export { default as Batch } from "./core/Batch.js";
 
 export { default as Run } from "./core/Run.js";
 
+export { Prompt } from "./core/Prompt.js";
+
+
 // execute passed script...
 
 export const Log = ({ text = void 0 , error = void 0 }) => {
