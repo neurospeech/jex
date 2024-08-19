@@ -5,9 +5,12 @@ export interface IPrompt extends prompts.PromptObject {
     failed?: (r: any) => any;
 }
 
-export const Prompt = async (a: IPrompt) => {
+export const Prompt = async ({ then, ... a}: IPrompt) => {
+    if (!then) {
+        throw new Error("then is required for prompt")
+    }
     a.name ??= "value";
     a.type ??= "text";
     const r = await prompts([a]);
-    return a.then(r.value);
+    return then(r.value);
 };

@@ -46,7 +46,7 @@ export default async function Run({
         args = args.split(" ");
     }
 
-    const r = await spawnPromise(cmd, args, {
+    const rp = spawnPromise(cmd, args, {
         cwd,
         detached,
         logCommand,
@@ -56,6 +56,14 @@ export default async function Run({
         log,
         error
     });
+
+    let r;
+
+    try {
+        r = await rp;
+    } catch (error) {
+        console.error(error);
+    }
 
     let fxr = void 0;
 

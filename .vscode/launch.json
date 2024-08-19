@@ -7,7 +7,8 @@
         {
             "type": "node",
             "request": "launch",
-            "name": "Launch Program",
+            "name": "Run",
+            "console": "integratedTerminal",
             "skipFiles": [
                 "<node_internals>/**"
             ],
@@ -17,6 +18,29 @@
             "program": "${workspaceFolder}/dist/index.js",
             "args": [
                 "test.jsx"
+            ],
+            "outFiles": [
+                "${workspaceFolder}/dist/**/*.js"
+            ],
+            "env": {
+                "TEST_MODE": "true"
+            }
+        },
+        {
+            "type": "node",
+            "request": "launch",
+            "name": "Parse",
+            "console": "integratedTerminal",
+            "skipFiles": [
+                "<node_internals>/**"
+            ],
+            "runtimeArgs": [
+                "--enable-source-maps"
+            ],
+            "program": "${workspaceFolder}/dist/index.js",
+            "args": [
+                "parse",
+                "./dist"
             ],
             "outFiles": [
                 "${workspaceFolder}/dist/**/*.js"

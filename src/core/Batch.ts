@@ -3,7 +3,7 @@ import XNode from "./XNode.js";
 export default async function Batch({}, ... commands: (() => XNode | string)[]) {
     for (const iterator of commands) {
         let element = iterator as any;
-        if (typeof element === "function") {
+        while (typeof element === "function") {
             element = element();
         }
         if (element?.execute) {
@@ -11,7 +11,13 @@ export default async function Batch({}, ... commands: (() => XNode | string)[]) 
             continue;
         }
 
-        // we will ignore any other type of nodes
-        console.log("");
+        // if (typeof element === "string") {
+        //     const log = element.trim();
+        //     if (log) {
+        //         console.log(log);
+        //     }
+        // }
+
+        
     }
 }

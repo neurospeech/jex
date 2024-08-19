@@ -38,7 +38,7 @@ export const Log = ({ text = void 0 , error = void 0 }) => {
     }
 };
 
-const deleteFile = false;
+const deleteFile = true;
 
 export const mask = (secret: string | Secret) => typeof secret !== "string" ? secret : new Secret(secret);
 
@@ -118,25 +118,6 @@ if (process.argv.length) {
             return invoke(name, args);
         });
 
-    cli.execute(process.argv);
-
-    // // check passed script arguments...
-
-    // // first arg will be the node
-    // // second arg will be the jex runner script
-
-    // // third arg onwards should be the batch that we would like to execute...
-    // let [name] = process.argv;
-    // if (name === "jex") {
-    //     const [_, name, ... args] = process.argv;
-    //     invoke(name, args).catch(console.error);
-    // } else if (name) {
-    //     const [_, _1, name, ... args] = process.argv;
-    //     invoke(name, args).catch(console.error);
-    // } else {
-    //     console.log(`Usage: jex script-name.jsx ... args`);
-    //     console.log(`Received: ${process.argv}`);
-    // }
-
-    
+    cli.execute(process.argv).catch(console.error);
+   
 }

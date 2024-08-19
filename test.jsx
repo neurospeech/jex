@@ -13,7 +13,7 @@ const Node = {
     }
 };
 
-invoke(<Batch>
+await invoke(<Batch>
 
     <Run
         cmd="node"
@@ -44,8 +44,16 @@ invoke(<Batch>
 
     <Prompt
         message="Type"
-        choices={["one", "two", "three"]}
-        then={(value) => type = value}
+        choices={[{
+            title: "One"            
+        }, {
+            titlte:"Two"
+        }, {
+            title: "Three"
+        }]}
+        then={(v) => type = v}
         />
     
+    { console.log(type)}
+
 </Batch>)

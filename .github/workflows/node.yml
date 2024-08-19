@@ -17,7 +17,7 @@ jobs:
       - run: npm install -g typescript
       - run: npm install
       - run: tsc
-      - run: node ./transformJSX.js ./dist
+      - run: node ./index.js parse ./dist
       - run: npm run test
       - run: npm publish --access public
         env:
