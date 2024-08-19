@@ -3,7 +3,8 @@ import Batch from "../../core/Batch.js";
 import { FileSystem } from "../../utils/FileSystem.js";
 import { Security } from "./Security.jsx";
 import Run from "../../core/Run.js";
-import { htmlDecode } from "htmlencode";
+import he from "htmlencode";
+const { htmlDecode } = he;
 
 
 function getVal(xml, name) {
