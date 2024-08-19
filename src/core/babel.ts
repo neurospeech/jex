@@ -16,6 +16,14 @@ const presets = {
                 return {
                     name: "JSX Transformer",
                     visitor: {
+                        ImportDeclaration(node) {
+                            const e = node.node;
+                            const source = e.source?.value;
+                            if (source?.endsWith(".jsx")) {
+                                e.source.value = source.substring(0, source.length-1);
+                            }
+                            return node;
+                        },
                         JSXElement(node) {
                             if (node.node.children?.length) {
                                 const copy = [... node.node.children];
