@@ -28,7 +28,7 @@ export const spawnPromise = (path, args?: (string | Secret)[], options: ISpawnAr
     const errorList = [];
     const allList = [];
     const { logCommand = true, throwOnFail = true, logData = true, logError = true, log, error } = options;
-    const cd = spawn(path, args.map((x) => typeof x !== "string" ? x.secret : x), options);
+    const cd = spawn(path, args.map((x) => typeof x !== "string" ? x.secret : x.toString()), options);
     const pid = cd.pid;
     if (logCommand) {
         console.log(`${path} ${args.join(" ")}`);
