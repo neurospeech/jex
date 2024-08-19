@@ -6,7 +6,8 @@ export interface IPrompt extends prompts.PromptObject {
 }
 
 export const Prompt = async (a: IPrompt) => {
-    a.name = "value";
-    const r = await prompts(a);
+    a.name ??= "value";
+    a.type ??= "text";
+    const r = await prompts([a]);
     return a.then(r.value);
 };
