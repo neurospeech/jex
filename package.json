@@ -1,6 +1,6 @@
 {
   "name": "@neurospeech/jex",
-  "version": "1.0.31",
+  "version": "1.0.32",
   "description": "Easy shell scripting with JavaScript and E4X (Similar to JSX)",
   "main": "index.js",
   "type": "module",
