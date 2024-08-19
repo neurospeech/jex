@@ -1,5 +1,6 @@
 import Run from "../../core/Run.js";
-import { mask } from "../../index.js";
+import { Batch, mask } from "../../index.js";
+import { ParsePkcs12 } from "../certs/ParsePkcs12.js";
 
 export const Security = {
 
@@ -39,16 +40,32 @@ export const Security = {
         keychainPath,
         format = "pkcs12",
         type = "cert",
+        then = void 0 as ({ friendlyName, p12 } ) => any
     }) {
-        return <Run
-            cmd="security"
-            args={["import", certPath,
-            "-P", mask(certPass),
-            "-A",
-            "-t", type,
-            "-f", format,
-            "-k", keychainPath]}
-            />;
-    },
+        return <Batch>
+            <ParsePkcs12
+                certPath={certPath}
+                certPass={certPass}
+                then={then}
+                />
+            <Run
+                cmd="security"
+                args={["import", certPath,
+                "-P", mask(certPass),
+                "-A",
+                "-t", type,
+                "-f", format,
+                "-k", keychainPath]}
+                />;
+            <Run
+                cmd="security"
+                args={[
+                    "list-keychain",
+                    "-d", "user",
+                    "-s", keychainPath
+                ]}
+                />
+        </Batch>
+    }
 
 }; 
