@@ -62,7 +62,10 @@ export const invoke = async (name: string | XNode , args?: string[]) => {
             name = resolve(name);
         }
 
-        const {default: fx} = await import(pathToFileURL(name).toString());
+        name = pathToFileURL(name).toString();
+
+        console.log(`Loading ${name}`);
+        const {default: fx} = await import(name);
 
         if (!fx) {
             // script must have executed automatically and may not have default export
