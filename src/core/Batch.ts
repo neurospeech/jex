@@ -10,13 +10,7 @@ export default async function Batch({}, ... commands: (() => XNode | string)[]) 
             await element.execute();
             continue;
         }
-        if (typeof element === "string") {
-            const log = element.trim();
-            if (log) {
-                console.log(log);
-            }
-        }
 
-        // other text should be printed...?
+        // we will ignore any other type of nodes
     }
 }

@@ -29,8 +29,9 @@ invoke(<Batch>
         text={version}
         />
 
-    { /** Print following text directly on console... */}
-    Running Node Directly...
+    { /** Print following text directly on console... */
+        console.log("Executing Node")
+    }
 
     <Run
         cmd="node"
