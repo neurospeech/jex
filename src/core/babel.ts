@@ -1,5 +1,6 @@
 import { transform } from "@babel/core";
-import { readFile, writeFile } from "fs/promises";
+import { statSync } from "fs";
+import { readdir, readFile, writeFile } from "fs/promises";
 import { format, join, parse } from "path";
 
 const presets = {
@@ -67,6 +68,19 @@ export class Babel {
         const js = format(path);
         await writeFile(js, result.code, "utf8");
         return js;
+    }
+
+    static async transform(fileOrFolder: string) {
+        const s = statSync(fileOrFolder);
+        if(s.isDirectory()) {
+            const files = await readdir(fileOrFolder, { recursive: true, withFileTypes: true });
+            for (const iterator of files) {
+                const file = join(fileOrFolder, iterator.name);
+                await this.transform(file);
+            }
+            return;
+        }
+        return await this.transformJSX(fileOrFolder);
     }
 
 }

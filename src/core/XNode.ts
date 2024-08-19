@@ -19,7 +19,7 @@ export default class XNode {
     async execute() {
         const r = this.name(this.attributes ?? {}, ... this.children);
         if (r?.execute) {
-            return r.execute();
+            return await r.execute();
         }
         return r;
     }

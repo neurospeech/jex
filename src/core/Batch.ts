@@ -12,5 +12,6 @@ export default async function Batch({}, ... commands: (() => XNode | string)[]) 
         }
 
         // we will ignore any other type of nodes
+        console.log("");
     }
 }

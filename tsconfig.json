@@ -1,6 +1,6 @@
 {
     "compilerOptions": {
-        "jsx": "react",
+        "jsx": "preserve",
         "target": "ES2021",
         "module":"NodeNext",
         "incremental": true,

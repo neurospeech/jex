@@ -4,24 +4,31 @@ import { SpawnOptionsWithoutStdio, spawn } from "node:child_process";
 import { color } from "console-log-colors";
 import { Secret } from "./Secret.js";
 
-export const spawnPromise = (path, args?: (string | Secret)[], options?: SpawnOptionsWithoutStdio & {
+export interface ISpawnArgs extends SpawnOptionsWithoutStdio {
     logCommand?: boolean,
     logData?: boolean,
     logError?: boolean,
     log?: (data: Buffer) => void,
     error?: (data: Buffer) => void,
-    throwOnFail?: boolean }) => new Promise<{
+    throwOnFail?: boolean
+}
+
+
+export interface ISpawnResult {
     get data(): Buffer[];
     get error(): string[];
     get text(): string;
     pid: number;
     status: number;
-}>((resolve, reject) => {
+}
+
+export const spawnPromise = (path, args?: (string | Secret)[], options: ISpawnArgs = {} ) =>
+    new Promise<ISpawnResult>((resolve, reject) => {
     const dataList = [];
     const errorList = [];
     const allList = [];
-    const { logCommand = true, throwOnFail = true, logData = true, logError = true, log, error } = options ?? {};
-    const cd = spawn(path, args.map((x) => x instanceof Secret ? x.secret : x), options);
+    const { logCommand = true, throwOnFail = true, logData = true, logError = true, log, error } = options;
+    const cd = spawn(path, args.map((x) => typeof x !== "string" ? x.secret : x), options);
     const pid = cd.pid;
     if (logCommand) {
         console.log(`${path} ${args.join(" ")}`);
