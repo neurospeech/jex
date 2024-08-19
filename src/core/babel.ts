@@ -53,7 +53,7 @@ const presets = {
 
     ]
 };
-const inject = `import { XNode } from "@neurospeech/jex/index.js"`;
+const inject = `import XNode from "@neurospeech/jex/dist/core/XNode.js"`;
 
 export class Babel {
 
