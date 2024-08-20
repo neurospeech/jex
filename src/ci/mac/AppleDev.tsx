@@ -63,7 +63,9 @@ export const AppleDev = {
         let p12;
 
         return <Batch>
-
+            <Security.DeleteKeychain
+                path={keyChainPath}
+                />
             <Security.CreateKeychain
                 path={keyChainPath}
                 password={keyChainPass}
