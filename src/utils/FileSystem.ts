@@ -14,12 +14,17 @@ export const FileSystem = {
             : path;
     },
   
-    Mkdir({ path }) {
-        return mkdir( FileSystem.expand(path), { recursive: true });
+    async Mkdir({ path }) {
+        path = FileSystem.expand(path);
+        await mkdir( path, { recursive: true });
+        console.log(`mkdir ${path}`);
     },
 
-    CopyFile({ src, dest }) {
-        return copyFile( FileSystem.expand(src), FileSystem.expand(dest));
+    async CopyFile({ src, dest }) {
+        src = FileSystem.expand(src);
+        dest = FileSystem.expand(dest);
+        await copyFile( src, dest);
+        console.log(`Copied ${src} => ${dest}`);
     }
 
 };
