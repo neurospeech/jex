@@ -93,6 +93,7 @@ export const AppleDev = {
                 certPath={certPath}
                 certPass={certPass}
                 keychainPath={keyChainPath}
+                keychainPass={keyChainPass}
                 then={(x) => (friendlyName = x.friendlyName, p12 = x.p12 )}
                 />
 

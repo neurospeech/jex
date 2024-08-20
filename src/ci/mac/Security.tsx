@@ -49,6 +49,7 @@ export const Security = {
         certPath,
         certPass,
         keychainPath,
+        keychainPass,
         format = "pkcs12",
         type = "cert",
         then = void 0 as ({ friendlyName, p12 } ) => any
@@ -68,6 +69,15 @@ export const Security = {
                 "-f", format,
                 "-k", keychainPath]}
                 />;
+            <Run
+                cmd="security"
+                args={[
+                    "set-key-partition-list",
+                    "-S", "apple-tool:,apple:",
+                    "-k", keychainPass,
+                    keychainPath
+                ]}
+                />
             <Run
                 cmd="security"
                 args={[
