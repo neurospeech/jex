@@ -98,8 +98,6 @@ export const invoke = async (name: string | XNode , args?: string[]) => {
         }
         await node.execute();
     } catch (error) {
-        console.log(name);
-        console.log(process.argv);
         console.error(error);
     } finally {
         if (js && deleteFile) {
