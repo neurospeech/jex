@@ -9,7 +9,7 @@ const { htmlDecode } = he;
 
 function getVal(xml, name) {
     var m = new RegExp(`<key>${name}<\\/key>\\n\\s*<string>(.+)<\\/string>`)
-    return htmlDecode(xml.match(m)[1])
+    return htmlDecode(xml.match(m)?.[1])
 }
 
 function getType(xml) {
