@@ -1,4 +1,4 @@
-import { copyFile, mkdir } from "fs/promises";
+import { copyFile, mkdir, unlink } from "fs/promises";
 import { homedir, userInfo } from "os";
 import { join } from "path";
 
@@ -21,6 +21,12 @@ export const FileSystem = {
         dest = FileSystem.expand(dest);
         await copyFile( src, dest);
         console.log(`Copied ${src} => ${dest}`);
+    },
+
+    async DeleteFile({ path}) {
+        path = FileSystem.expand(path);
+        await unlink(path);
+        console.log(`File ${path} deleted.`);
     }
 
 };

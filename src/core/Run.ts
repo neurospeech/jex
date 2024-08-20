@@ -18,6 +18,7 @@ export interface IRunArgs {
     logData?: boolean,
     logError?: boolean,
     throwOnFail?: boolean,
+    timeout?: number,
     log?: (data: Buffer) => void,
     error?: (data: Buffer) => void,
     started?: (pid: number) => void,
@@ -35,6 +36,7 @@ export default async function Run({
     logData = true,
     logError = true,
     throwOnFail = true,
+    timeout = 30000,
     log = void 0 as (data: Buffer) => void,
     error = void 0 as (data: Buffer) => void,
     started = void 0 as (pid: number) => void,
@@ -55,6 +57,7 @@ export default async function Run({
             logCommand,
             logData,
             logError,
+            timeout,
             throwOnFail: false,
             log,
             error

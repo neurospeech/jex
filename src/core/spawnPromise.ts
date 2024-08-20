@@ -5,6 +5,7 @@ import cleanup from "node-cleanup";
 
 import { color } from "console-log-colors";
 import { Secret } from "./Secret.js";
+import { Timeout } from "./Timeout.js";
 
 export interface ISpawnArgs extends SpawnOptionsWithoutStdio {
     logCommand?: boolean,
@@ -43,7 +44,14 @@ export const spawnPromise = (path, args?: (string | Secret)[], options: ISpawnAr
     const dataList = [];
     const errorList = [];
     const allList = [];
-    const { logCommand = true, throwOnFail = true, logData = true, logError = true, log, error } = options;
+    const { logCommand = true, throwOnFail = true, logData = true, logError = true, log, error, timeout = 30000 } = options;
+
+    delete options.timeout;
+
+    const timeout1 = new Timeout(timeout, options.signal);
+
+    options.signal = timeout1.signal;
+
     const cd = spawn(path, args.map((x) => typeof x !== "string" ? x.secret : x.toString()), options);
     const pid = cd.pid;
     if (logCommand) {
@@ -54,9 +62,11 @@ export const spawnPromise = (path, args?: (string | Secret)[], options: ISpawnAr
 
     cd.on("exit", () => {
         running.delete(cd);
+        timeout1.dispose();
     });
 
     cd.stdout.on("data", (data) => {
+        timeout1.reset();
         if (log) {
             log(data);
         }
@@ -67,6 +77,7 @@ export const spawnPromise = (path, args?: (string | Secret)[], options: ISpawnAr
         }
     });
     cd.stderr.on("data", (data) => {
+        timeout1.reset();
         allList.push(data);
         data = data.toString("utf8");
         if (error) {

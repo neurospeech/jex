@@ -50,11 +50,16 @@ function getInfo(xml) {
 export const AppleDev = {
 
     Clear({
-        keyChainPath
+        keyChainPath,
+        provisioningProfile
     }) {
+        const { base } = parse(provisioningProfile);
         return <Batch>
             <Security.DeleteKeychain
                 path={keyChainPath}
+                />
+            <FileSystem.DeleteFile
+                path={`~/Library/MobileDevice/Provisioning Profiles/${base}`}
                 />
         </Batch>;
     },
@@ -65,7 +70,7 @@ export const AppleDev = {
         certPath,
         certPass,
         provisioningProfile,
-        then = void 0 as ({ friendlyName, p12, pp }: { friendlyName: string, p12: any, pp: { name, appid, type, cers } }) => any
+        then = void 0 as ({ friendlyName, p12, pp }: { friendlyName: string, p12: any, pp: { name, appid, type, certs } }) => any
     }) {
         const { base } = parse(provisioningProfile);
 

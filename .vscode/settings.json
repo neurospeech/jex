@@ -21,6 +21,7 @@
         "FROMPARTS",
         "ISDATE",
         "ISNUMERIC",
+        "Keychain",
         "Linq",
         "navigations",
         "Neuro",
