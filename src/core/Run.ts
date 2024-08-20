@@ -1,4 +1,4 @@
-import { spawnPromise } from "./spawnPromise.js";
+import { ISpawnResult, spawnPromise } from "./spawnPromise.js";
 import XNode from "./XNode.js";
 
 export interface IProcessResult {
@@ -46,23 +46,28 @@ export default async function Run({
         args = args.split(" ");
     }
 
-    const rp = spawnPromise(cmd, args, {
-        cwd,
-        detached,
-        logCommand,
-        logData,
-        logError,
-        throwOnFail,
-        log,
-        error
-    });
-
-    let r;
+    let r: ISpawnResult;
 
     try {
-        r = await rp;
-    } catch (error) {
-        console.error(error);
+        r = await spawnPromise(cmd, args, {
+            cwd,
+            detached,
+            logCommand,
+            logData,
+            logError,
+            throwOnFail: false,
+            log,
+            error
+        });
+    } catch (err) {
+        error?.(err);
+        if (logError) {
+            console.error(err.stack ?? err);
+        }
+        if (throwOnFail) {
+            throw err;
+        }
+        return;
     }
 
     let fxr = void 0;
@@ -75,5 +80,9 @@ export default async function Run({
 
     if (fxr) {
         await fxr;
+    }
+
+    if (r.status !== 0 && throwOnFail) {
+        throw new Error(r.error.join("\n"));
     }
 }

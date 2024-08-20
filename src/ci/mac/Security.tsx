@@ -14,6 +14,17 @@ export const Security = {
             />
     },
 
+    DeleteKeychain({
+        path,
+        throwOnFail = false
+    }) {
+        return <Run
+            cmd="security"
+            throwOnFail={throwOnFail}
+            args={["delete-keychain", path]}
+            />
+    },
+
     SetKeychainSettings({
         lut = 21600,
         path
