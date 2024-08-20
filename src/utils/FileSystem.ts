@@ -10,16 +10,16 @@ export const FileSystem = {
 
     expand(path: string) {
         return path.startsWith("~")
-            ? `${this.userHomeDir}${path.substring(1)}`
+            ? `${FileSystem.userHomeDir}${path.substring(1)}`
             : path;
     },
   
     Mkdir({ path }) {
-        return mkdir( this.expand(path), { recursive: true });
+        return mkdir( FileSystem.expand(path), { recursive: true });
     },
 
     CopyFile({ src, dest }) {
-        return copyFile( this.expand(src), this.expand(dest));
+        return copyFile( FileSystem.expand(src), FileSystem.expand(dest));
     }
 
 };
