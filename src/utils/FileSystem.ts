@@ -4,13 +4,9 @@ import { join } from "path";
 
 export const FileSystem = {
 
-    get userHomeDir() {
-        return join(homedir(), userInfo().username);
-    },
-
     expand(path: string) {
         return path.startsWith("~")
-            ? `${FileSystem.userHomeDir}${path.substring(1)}`
+            ? `${homedir()}${path.substring(1)}`
             : path;
     },
   
