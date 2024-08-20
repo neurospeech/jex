@@ -103,6 +103,7 @@ export const AppleDev = {
             <Run
                 cmd="security"
                 args={["cms", "-D", "-i", provisioningProfile]}
+                logData={false}
                 finished={(r) => then({ friendlyName, p12, pp: getInfo(r.text) }) }
                 />
 
