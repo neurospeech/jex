@@ -49,6 +49,16 @@ function getInfo(xml) {
 
 export const AppleDev = {
 
+    Clear({
+        keyChainPath
+    }) {
+        return <Batch>
+            <Security.DeleteKeychain
+                path={keyChainPath}
+                />
+        </Batch>;
+    },
+
     InstallCert({
         keyChainPath,
         keyChainPass = "abcd123",
@@ -73,9 +83,6 @@ export const AppleDev = {
             <Security.UnlockKeychain
                 path={keyChainPath}
                 password={keyChainPass}
-                />
-            <Security.SetKeychainSettings
-                path={keyChainPath}
                 />
             <Security.Import
                 certPath={certPath}
