@@ -68,12 +68,12 @@ export const AppleDev = {
                 path={keyChainPath}
                 password={keyChainPass}
                 />
-            <Security.SetKeychainSettings
-                path={keyChainPath}
-                />
             <Security.UnlockKeychain
                 path={keyChainPath}
                 password={keyChainPass}
+                />
+            <Security.SetKeychainSettings
+                path={keyChainPath}
                 />
             <Security.Import
                 certPath={certPath}
