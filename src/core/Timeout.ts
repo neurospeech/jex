@@ -1,6 +1,8 @@
 export class Timeout {
     private id;
-    public signal: AbortSignal;
+    public get signal() {
+        return this.ac.signal;
+    }
     private ac: AbortController = new AbortController();
     constructor(
         private readonly timeInMS,
