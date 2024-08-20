@@ -52,6 +52,7 @@ export const spawnPromise = (path, args?: (string | Secret)[], options: ISpawnAr
 
     options.signal = timeout1.signal;
 
+
     const cd = spawn(path, args.map((x) => typeof x !== "string" ? x.secret : x.toString()), options);
     const pid = cd.pid;
     if (logCommand) {
@@ -59,6 +60,9 @@ export const spawnPromise = (path, args?: (string | Secret)[], options: ISpawnAr
     }
 
     running.add(cd);
+    timeout1.signal.addEventListener("abort", () => {
+        try {cd.kill(); } catch {}
+    });
 
     cd.on("exit", () => {
         running.delete(cd);
