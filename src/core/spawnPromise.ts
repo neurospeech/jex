@@ -1,5 +1,7 @@
 /* eslint-disable no-console */
-import { SpawnOptionsWithoutStdio, spawn } from "node:child_process";
+import { ChildProcess, SpawnOptionsWithoutStdio, spawn } from "node:child_process";
+
+import cleanup from "node-cleanup";
 
 import { color } from "console-log-colors";
 import { Secret } from "./Secret.js";
@@ -22,6 +24,20 @@ export interface ISpawnResult {
     status: number;
 }
 
+let running = new Set<ChildProcess>();
+
+cleanup(() => {
+    for (const element of running) {
+        if (!element.killed) {
+            try {
+                element.kill();
+            } catch {
+                
+            }
+        }
+    }
+});
+
 export const spawnPromise = (path, args?: (string | Secret)[], options: ISpawnArgs = {} ) =>
     new Promise<ISpawnResult>((resolve, reject) => {
     const dataList = [];
@@ -33,6 +49,13 @@ export const spawnPromise = (path, args?: (string | Secret)[], options: ISpawnAr
     if (logCommand) {
         console.log(`${path} ${args.join(" ")}`);
     }
+
+    running.add(cd);
+
+    cd.on("exit", () => {
+        running.delete(cd);
+    });
+
     cd.stdout.on("data", (data) => {
         if (log) {
             log(data);
