@@ -61,7 +61,13 @@ const presets = {
 
     ]
 };
-const inject = `import XNode from "@neurospeech/jex/dist/core/XNode.js"`;
+// const inject = `import XNode from "@neurospeech/jex/dist/core/XNode.js"`;
+
+const root = process.env.TEST_MODE
+    ? join(import.meta.url.replaceAll("\\","/"), "..", "XNode.js" ).replaceAll("\\" ,"/")
+    : "@neurospeech/jex/dist/core/XNode.js";
+const inject = `import XNode from "${ root}"`;
+
 
 export class Babel {
 

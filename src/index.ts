@@ -41,7 +41,9 @@ export const Log = ({ text = void 0 , error = void 0 }) => {
 
 const deleteFile = true;
 
-export const mask = (secret: string | Secret) => typeof secret !== "string" ? secret : new Secret(secret);
+export const mask = (secret: string | Secret | TemplateStringsArray, ... a ) => secret instanceof Secret
+    ? secret
+    : new Secret(secret, ... a);
 
 export const invoke = async (name: string | XNode , args?: string[]) => {
 

@@ -1,4 +1,4 @@
-import { Batch, Run, invoke, Log, Prompt } from "./dist/index.js";
+import { Batch, Run, invoke, Log, Prompt, mask } from "./dist/index.js";
 
 let version = "";
 
@@ -12,6 +12,8 @@ const Node = {
             />
     }
 };
+
+const masked = mask `/p:Password=${"abcd123"}`;
 
 await invoke(<Batch>
 
@@ -55,5 +57,8 @@ await invoke(<Batch>
         />
     
     { console.log(type)}
+
+    { console.log(masked)}
+    { console.log(masked.secret)}
 
 </Batch>)
