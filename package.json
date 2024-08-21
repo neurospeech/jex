@@ -16,11 +16,16 @@
   "dependencies": {
     "@babel/core": "^7.25.2",
     "@babel/preset-react": "^7.24.7",
+    "@googleapis/androidpublisher": "^21.0.0",
     "console-log-colors": "^0.5.0",
+    "google-auth-library": "^9.14.0",
     "htmlencode": "^0.0.4",
-    "node-forge": "^1.3.1",
+    "jszip": "^3.10.1",
     "node-cleanup": "^2.1.2",
-    "prompts": "^2.4.2"
+    "node-forge": "^1.3.1",
+    "prompts": "^2.4.2",
+    "fast-glob": "^3.3.2",
+    "p-timeout": "^6.1.2"
   },
   "devDependencies": {
     "@types/node": "^22.3.0",
