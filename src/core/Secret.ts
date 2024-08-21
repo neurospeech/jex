@@ -13,7 +13,8 @@ export class Secret {
                 t += element;
                 d += element;
                 if (index < a.length) {
-                    t += a[index];
+                    const v = a[index];
+                    t += v.secret ? v.secret : v;
                     d += "********";
                 }
             }
