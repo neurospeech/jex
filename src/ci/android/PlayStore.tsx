@@ -68,11 +68,11 @@ export const PlayStore = {
             }
     
             await pTimeout(
-                runUpload(
+                runUpload({
                     packageName,
                     track,
-                    inAppUpdatePriorityInt,
-                    userFractionFloat,
+                    inAppUpdatePriority: inAppUpdatePriorityInt,
+                    userFraction: userFractionFloat,
                     whatsNewDir,
                     mappingFile,
                     debugSymbols,
@@ -80,7 +80,9 @@ export const PlayStore = {
                     changesNotSentForReview,
                     existingEditId,
                     status,
-                    validatedReleaseFiles
+                    validatedReleaseFiles,
+                    keyFilename: process.env.GOOGLE_APPLICATION_CREDENTIALS
+                    }
                 ),
                 {
                     milliseconds: 3.6e+6

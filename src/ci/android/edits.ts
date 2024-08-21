@@ -32,7 +32,21 @@ export interface EditOptions {
     existingEditId?: string;
 }
 
-export async function runUpload(
+export async function runUpload({
+    packageName,
+    track,
+    inAppUpdatePriority,
+    userFraction,
+    whatsNewDir,
+    mappingFile,
+    debugSymbols,
+    releaseName: name,
+    changesNotSentForReview,
+    existingEditId,
+    status,
+    validatedReleaseFiles,
+    keyFilename
+}: {
     packageName: string,
     track: string,
     inAppUpdatePriority: number | undefined,
@@ -40,13 +54,16 @@ export async function runUpload(
     whatsNewDir: string | undefined,
     mappingFile: string | undefined,
     debugSymbols: string | undefined,
-    name: string | undefined,
+    releaseName: string | undefined,
     changesNotSentForReview: boolean,
     existingEditId: string | undefined,
     status: string,
-    validatedReleaseFiles: string[]
+    validatedReleaseFiles: string[],
+    keyFilename: string
+}
 ) {
     const auth = new google.auth.GoogleAuth({
+        keyFilename,
         scopes: ['https://www.googleapis.com/auth/androidpublisher']
     });
 
@@ -59,7 +76,7 @@ export async function runUpload(
         whatsNewDir: whatsNewDir,
         mappingFile: mappingFile,
         debugSymbols: debugSymbols,
-        name: name,
+        name,
         changesNotSentForReview: changesNotSentForReview,
         existingEditId: existingEditId,
         status: status
