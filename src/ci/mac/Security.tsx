@@ -73,7 +73,8 @@ export const Security = {
                 cmd="security"
                 args={[
                     "set-key-partition-list",
-                    "-S", "apple-tool:,apple:",
+                    "-S", "apple-tool:,apple:,codesign:",
+                    "-s",
                     "-k", keychainPass,
                     keychainPath
                 ]}
