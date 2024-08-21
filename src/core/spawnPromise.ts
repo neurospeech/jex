@@ -53,7 +53,7 @@ export const spawnPromise = (path, args?: (string | Secret)[], options: ISpawnAr
     options.signal = timeout1.signal;
 
 
-    const cd = spawn(path, args.map((x) => typeof x !== "string" ? x.secret : x.toString()), options);
+    const cd = spawn(path, args.filter((x) => x !== void 0).map((x) => typeof x !== "string" ? x.secret : x.toString()), options);
     const pid = cd.pid;
     if (logCommand) {
         console.log(`${path} ${args.join(" ")}`);
