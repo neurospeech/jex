@@ -100,6 +100,17 @@ await invoke(<Batch>
         apiKeyId={apiKeyId}
         issuerId={issuerId}
         />
+
+    <Run
+        cmd="something-secret"
+        args={[
+            "publish",
+            /** this can mask secret as shown below */
+            mask `-p:KeyStorePassword=${"secret"}`,
+            /** this will also work */
+            mask("password")
+        ]}
+        />
 </Batch>);
 ```
 
