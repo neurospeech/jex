@@ -117,9 +117,11 @@ async function validateServiceAccountJson(serviceAccountJsonRaw: string | undefi
             encoding: 'utf8'
         });
         // core.exportVariable("GOOGLE_APPLICATION_CREDENTIALS", serviceAccountFile)
+        process.env.GOOGLE_APPLICATION_CREDENTIALS = serviceAccountFile;
     } else if (serviceAccountJson) {
         // If the user has provided the json path, then set appropriate env variable
         // core.exportVariable("GOOGLE_APPLICATION_CREDENTIALS", serviceAccountJson)
+        process.env.GOOGLE_APPLICATION_CREDENTIALS = serviceAccountJson;
     } else {
         // If the user provided neither, fail and exit
         return Promise.reject("You must provide one of 'serviceAccountJsonPlainText' or 'serviceAccountJson' to use this action")
