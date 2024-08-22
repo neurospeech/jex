@@ -18,34 +18,39 @@ export default class XNode {
 
     async execute() {
         const a = this.attributes ?? {};
-        const r = this.name(a, ... this.children);
-        if (r?.execute) {
-
-            let result;
-
-            // get then, failed and throwOnFail attributes...
-            const { then, failed, throwOnFail = true} = a;
-            if (failed || !throwOnFail) {
-                try {
-                    result = await r.execute();
-                    await then?.(result);
-                } catch (error) {
-                    failed?.(error);
-                    if (throwOnFail) {
-                        throw error;
-                    }
+        const { then, failed, throwOnFail = true} = a;
+        let result;
+        if (failed || !throwOnFail) {
+            try {
+                result = await this.___invoke(a);
+                await then?.(result);
+            } catch (error) {
+                failed?.(error);
+                if (throwOnFail) {
+                    throw error;
                 }
-                return result;
             }
-            if (then) {
-                result = await r.execute();
-                await then(result);
-                return result;
-            }
-
-            return await r.execute();
+            return result;
         }
-        return r;
+        // get then, failed and throwOnFail attributes...
+        if (then) {
+            result = await this.___invoke(a);
+            await then(result);
+            return result;
+        }
+        return await this.___invoke(a);
+    }
+
+    private async ___invoke(a) {
+        const result = this.name(a, ... this.children);
+        if (result?.execute) {
+            const ra = result.attributes ??= {};
+            ra.then ??= a.then;
+            ra.failed ??= a.failed;
+            ra.throwOnFail ??= a.throwOnFail;
+            return await result.execute();
+        }
+        return result;
     }
 
 }

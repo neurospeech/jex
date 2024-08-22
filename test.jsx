@@ -21,7 +21,7 @@ await invoke(<Batch>
         cmd="node"
         args={["--version"]}
         logData={false}
-        finished={(x) => version = x.text.trim() }
+        then={(x) => version = x.text.trim() }
         />
 
     {
