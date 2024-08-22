@@ -22,7 +22,7 @@ export interface IRunArgs {
     log?: (data: Buffer) => void,
     error?: (data: Buffer) => void,
     started?: (pid: number) => void,
-    finished?: (r: IProcessResult) => void,
+    then?: (r: IProcessResult) => void,
     failed?: (r: IProcessResult) => void
 
 }
@@ -40,7 +40,7 @@ export default async function Run({
     log = void 0 as (data: Buffer) => void,
     error = void 0 as (data: Buffer) => void,
     started = void 0 as (pid: number) => void,
-    finished = void 0 as (r: IProcessResult) => void,
+    then = void 0 as (r: IProcessResult) => void,
     failed = void 0 as (r: IProcessResult) => void
 }: IRunArgs) {
 
@@ -76,7 +76,7 @@ export default async function Run({
     let fxr = void 0;
 
     if (r.status === 0) {
-        fxr = finished?.(r);
+        fxr = then?.(r);
     } else {
         fxr = failed?.(r);
     }

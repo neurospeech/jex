@@ -1,6 +1,10 @@
+const secretSymbol = Symbol("secret");
+
 export class Secret {
 
-    public readonly secret: string;
+    public get secret() {
+        return this[secretSymbol];
+    }
 
     public readonly display: string = "********";
 
@@ -21,7 +25,10 @@ export class Secret {
             this.display = d;
             secret = t;
         }
-        this.secret = secret as string;
+        Object.defineProperty(this, secretSymbol, {
+            value: secret as any,
+            enumerable: false
+        });
     }
 
     toString() {

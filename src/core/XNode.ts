@@ -17,8 +17,32 @@ export default class XNode {
     }
 
     async execute() {
-        const r = this.name(this.attributes ?? {}, ... this.children);
+        const a = this.attributes ?? {};
+        const r = this.name(a, ... this.children);
         if (r?.execute) {
+
+            let result;
+
+            // get then, failed and throwOnFail attributes...
+            const { then, failed, throwOnFail = true} = a;
+            if (failed || !throwOnFail) {
+                try {
+                    result = await r.execute();
+                    await then?.(result);
+                } catch (error) {
+                    failed?.(error);
+                    if (throwOnFail) {
+                        throw error;
+                    }
+                }
+                return result;
+            }
+            if (then) {
+                result = await r.execute();
+                await then(result);
+                return result;
+            }
+
             return await r.execute();
         }
         return r;
