@@ -10,6 +10,6 @@ export interface IThenTaskArgs<TR = any> {
     throwOnFail?: boolean;
 };
 
-export type TaskArgs<T, TR> = T & ITaskArgs<TR>;
+export type TaskArgs<T, TR = any> = T & ITaskArgs<TR>;
 
 export type ThenTaskArgs<T, TR = any> = T & IThenTaskArgs<TR>;
