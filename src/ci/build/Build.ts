@@ -5,6 +5,14 @@ const pad = (d: number,digits = 2) => d.toString().padStart(digits, "0");
 
 export const Build = {
 
+    readEnv(name) {
+        const v = process.env[name];
+        if (v === void 0) {
+            throw new Error(`Environment variable ${name} not set`)
+        }
+        return v;
+    },
+
     async PrepareVersion({
         mode,
     }: ThenTaskArgs<{ mode: "patch" | "timestamp" }, { major, minor, patch, version, build }>) {
