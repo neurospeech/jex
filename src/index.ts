@@ -16,6 +16,8 @@ export { default as Run } from "./core/Run.js";
 
 export { Prompt } from "./core/Prompt.js";
 
+export { default as readEnv } from "./core/readEnv.js";
+
 
 // execute passed script...
 
