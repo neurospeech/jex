@@ -18,8 +18,17 @@ export const Build = {
         const d = new Date();
         let build = `${pad(d.getFullYear(), 4)}${pad(d.getMonth() + 1)}${pad(d.getDay())}${pad(d.getHours())}${pad(d.getMinutes())}${pad(d.getSeconds())}`;
 
-        if (mode === "patch") {
-            build = patch;
+        switch(mode) {
+            case "patch":
+                build = patch;
+                break;
+            case "timestamp":
+                break;
+            default:
+                if (Number(mode)) {
+                    build = Number(mode).toString();
+                }
+                break;
         }
 
         return {
