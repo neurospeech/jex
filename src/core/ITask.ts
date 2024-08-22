@@ -1,15 +1,15 @@
-export interface ITaskArgs {
-    then?: (x) => any;
+export interface ITaskArgs<TR = any> {
+    then?: (x: TR) => any;
     failed?: (x) => any;
     throwOnFail?: boolean;
 };
 
-export interface IThenTaskArgs {
-    then: (x) => any;
+export interface IThenTaskArgs<TR = any> {
+    then: (x: TR) => any;
     failed?: (x) => any;
     throwOnFail?: boolean;
 };
 
-export type TaskArgs<T> = T & ITaskArgs;
+export type TaskArgs<T, TR> = T & ITaskArgs<TR>;
 
-export type ThenTaskArgs<T> = T & IThenTaskArgs;
+export type ThenTaskArgs<T, TR = any> = T & IThenTaskArgs<TR>;
