@@ -2,6 +2,8 @@ import { isXNode } from "./isXNode.js";
 
 export default class XNode {
 
+    static log = false;
+
     public static create(
         // eslint-disable-next-line @typescript-eslint/ban-types
         name: Function,
@@ -36,6 +38,10 @@ export default class XNode {
     }
 
     private async ___invoke(a) {
+        if (XNode.log) {
+            console.log(`Executing ${this.name}`);
+            console.log(a);
+        }
         const result = this.name(a, ... this.children);
         if (result?.[isXNode]) {
             const ra = (result.attributes ??= {});
