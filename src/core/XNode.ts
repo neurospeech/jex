@@ -27,6 +27,7 @@ export default class XNode {
         let result;
         if (this.log) {
             console.log(`Executing ${this.name.name}`);
+            console.log(this.attributes);
             console.log(a);
         }
         try {
