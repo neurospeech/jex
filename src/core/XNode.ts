@@ -21,25 +21,16 @@ export default class XNode {
         a.throwOnFail ??= true;
         const { then, failed, throwOnFail} = a;
         let result;
-        if (failed || !throwOnFail) {
-            try {
-                result = await this.___invoke(a);
-                await then?.(result);
-            } catch (error) {
-                failed?.(error);
-                if (throwOnFail) {
-                    throw error;
-                }
-            }
-            return result;
-        }
-        // get then, failed and throwOnFail attributes...
-        if (then) {
+        try {
             result = await this.___invoke(a);
-            await then(result);
-            return result;
+            await then?.(result);
+        } catch (error) {
+            failed?.(error);
+            if (throwOnFail) {
+                throw new Error(error.stack ?? error.toString());
+            }
         }
-        return await this.___invoke(a);
+        return result;
     }
 
     private async ___invoke(a) {
