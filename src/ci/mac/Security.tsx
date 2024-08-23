@@ -8,10 +8,17 @@ export const Security = {
         password,
         path
     }) {
-        return <Run
-            cmd="security"
-            args={["create-keychain", "-p", mask(password), path]}
+        return <Batch>
+            <Run
+                cmd="security"
+                args={["create-keychain", "-p", mask(password), path]}
+                />
+            <Run
+                timeout={5000}
+                cmd="security"
+                args={["set-keychain-settings", "-lut", "21600", path]}
             />
+        </Batch>
     },
 
     DeleteKeychain({
@@ -69,7 +76,6 @@ export const Security = {
                 args={[
                     "set-key-partition-list",
                     "-S", "apple-tool:,apple:,codesign:",
-                    "-s",
                     "-k", keychainPass,
                     keychainPath
                 ]}
