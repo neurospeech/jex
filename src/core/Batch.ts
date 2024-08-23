@@ -1,3 +1,4 @@
+import { isXNode } from "./isXNode.js";
 import XNode from "./XNode.js";
 
 export default async function Batch({
@@ -10,7 +11,7 @@ export default async function Batch({
             while (typeof element === "function") {
                 element = element();
             }
-            if (element?.execute) {
+            if (element?.[isXNode]) {
                 await element.execute();
                 continue;
             }

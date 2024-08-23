@@ -7,6 +7,7 @@ import { pathToFileURL } from "url";
 import { Secret } from "./core/Secret.js";
 import { cli } from "./core/CLI.js";
 import { resolve } from "path";
+import { isXNode } from "./core/isXNode.js";
 
 export { default as XNode } from "./core/XNode.js";
 
@@ -90,7 +91,7 @@ export const invoke = async (name: string | XNode , args?: string[]) => {
         }
 
         let node = fx;
-        if (!node.execute) {
+        if (!node[isXNode]) {
             node = fx(options);
         } else {
             for (const key in options) {

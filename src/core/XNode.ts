@@ -1,3 +1,5 @@
+import { isXNode } from "./isXNode.js";
+
 export default class XNode {
 
     public static create(
@@ -13,7 +15,7 @@ export default class XNode {
         public readonly attributes: Record<string, any>,
         public readonly children: (() => (XNode | string))[]
     ) {
-
+        this[isXNode] = true;
     }
 
     async execute() {
@@ -35,7 +37,7 @@ export default class XNode {
 
     private async ___invoke(a) {
         const result = this.name(a, ... this.children);
-        if (result?.execute) {
+        if (result?.[isXNode]) {
             const ra = result.attributes ??= {};
             ra.then ??= a.then;
             ra.failed ??= a.failed;
