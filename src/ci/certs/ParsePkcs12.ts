@@ -15,6 +15,5 @@ export async function ParsePkcs12 ({
     const bag = p12.safeContents.find((x) => x.encrypted).safeBags[0].attributes;
     const friendlyName = bag.friendlyName[0];
 
-    then?.({ friendlyName, p12 });
-    
+    return { friendlyName, p12 };
 }
