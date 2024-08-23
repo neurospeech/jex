@@ -49,6 +49,7 @@ export default class XNode {
             ra.failed ??= a.failed;
             ra.throwOnFail ??= a.throwOnFail;
             result.log = this.log;
+            ra.log ??= this.log;
             return await result.execute();
         }
         return result;
