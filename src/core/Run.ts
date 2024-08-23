@@ -35,7 +35,6 @@ export default async function Run({
     logCommand = true,
     logData = true,
     logError = true,
-    throwOnFail = true,
     timeout = 30000,
     log = void 0 as (data: Buffer) => void,
 }: IRunArgs) {

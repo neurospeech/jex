@@ -18,7 +18,8 @@ export default class XNode {
 
     async execute() {
         const a = this.attributes ?? {};
-        const { then, failed, throwOnFail = true} = a;
+        a.throwOnFail ??= true;
+        const { then, failed, throwOnFail} = a;
         let result;
         if (failed || !throwOnFail) {
             try {
