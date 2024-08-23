@@ -11,6 +11,7 @@ export interface IUploadApp {
     apiKeyId: string;
     issuerId: string;
     apiPrivateKey: string;
+    timeout: number;
 }
 
 export const XCRun = {
@@ -21,6 +22,7 @@ export const XCRun = {
         apiPrivateKey,
         apiKeyId,
         issuerId,
+        timeout = 300000,
     }: IUploadApp) {
 
         const privateKeys = join(process.env.HOME, "private_keys");
@@ -52,6 +54,7 @@ return  <Batch
 
             <Run
                 cmd="xcrun"
+                timeout={timeout}
                 args={[
                     "altool",
                     "--output-format", "xml",
