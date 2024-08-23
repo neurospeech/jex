@@ -22,13 +22,11 @@ export default class XNode {
 
     async execute() {
         const a = this.attributes ?? {};
-        a.throwOnFail ??= true;
-        const { then, failed, throwOnFail} = a;
+        const { then, failed, throwOnFail = true} = a;
         let result;
         if (this.log) {
             console.log(`Executing ${this.name.name}`);
             console.log(this.attributes);
-            console.log(a);
         }
         try {
             result = await this.___invoke(a);
@@ -36,7 +34,7 @@ export default class XNode {
         } catch (error) {
             failed?.(error);
             if (throwOnFail) {
-                throw new (Error as any)("Failed", { cause: error });
+                throw new (Error as any)(`Failed on ${this.attributes?.location}`, { cause: error });
             }
         }
         return result;

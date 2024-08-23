@@ -24,7 +24,7 @@ const presets = {
                             }
                             return node;
                         },
-                        JSXElement(node) {
+                        JSXElement(node, state) {
                             if (node.node.children?.length) {
                                 const copy = [... node.node.children];
                                 const transformed = node.node.children = [];
@@ -46,6 +46,16 @@ const presets = {
                                         case "JSXEmptyExpression":
                                             continue;
                                     }
+
+                                    // lets add location...
+                                    if (element.loc?.start) {
+                                        (element.openingElement.attributes ??= []).push(
+                                            babel.types.jsxAttribute(
+                                                babel.types.jsxIdentifier("location"),
+                                                babel.types.stringLiteral( `${state.filename} ${element.loc.start.line},${element.loc.start.column}`))
+                                        );
+                                    }
+
                                     transformed.push(babel.types.arrowFunctionExpression([], element));
                                 }
                             }
@@ -75,7 +85,7 @@ export class Babel {
     static async transformJSX(file: string, outputFile?: string) {
         let code = await readFile(file, "utf8");
         const finalCode = `${inject};${code}`;
-        const p = { ... presets };
+        const p = { ... presets, filename: file };
         if (outputFile) {
             p.sourceMaps = true;
         }
