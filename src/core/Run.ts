@@ -37,6 +37,7 @@ export default async function Run({
     logError = true,
     timeout = 30000,
     throwOnFail,
+    then,
     log = void 0 as (data: Buffer) => void,
 }: IRunArgs) {
 
@@ -44,7 +45,7 @@ export default async function Run({
         args = args.split(" ");
     }
 
-    return await spawnPromise(cmd, args, {
+    const r = await spawnPromise(cmd, args, {
             cwd,
             detached,
             logCommand,
@@ -54,4 +55,6 @@ export default async function Run({
             throwOnFail,
             log
         });
+
+    await then?.(r);
 }
