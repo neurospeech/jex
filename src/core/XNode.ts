@@ -29,7 +29,7 @@ export default class XNode {
         } catch (error) {
             failed?.(error);
             if (throwOnFail) {
-                throw new Error(error.stack ?? error.toString());
+                throw new (Error as any)("Failed", { cause: error });
             }
         }
         return result;
@@ -38,7 +38,7 @@ export default class XNode {
     private async ___invoke(a) {
         const result = this.name(a, ... this.children);
         if (result?.[isXNode]) {
-            const ra = result.attributes ??= {};
+            const ra = (result.attributes ??= {});
             ra.then ??= a.then;
             ra.failed ??= a.failed;
             ra.throwOnFail ??= a.throwOnFail;
