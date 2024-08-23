@@ -7,6 +7,7 @@ export const Build = {
 
     async PrepareVersion({
         mode,
+        then
     }: ThenTaskArgs<{ mode: "patch" | "timestamp" }, { major, minor, patch, version, build }>) {
 
         const pkgFile = await readFile("./package.json", "utf8");
@@ -31,13 +32,13 @@ export const Build = {
                 break;
         }
 
-        return {
+        await then?.({
             version,
             major,
             minor,
             patch,
             build
-        };
+        });
 
     }
 
