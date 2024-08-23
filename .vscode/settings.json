@@ -11,6 +11,8 @@
    "terminal.integrated.defaultProfile.windows": "PowerShell",
     "cSpell.words": [
         "Akash",
+        "altool",
+        "appletvos",
         "castas",
         "Cloner",
         "DATEDIFF",
@@ -25,7 +27,8 @@
         "Linq",
         "navigations",
         "Neuro",
-        "syslanguages"
+        "syslanguages",
+        "xcrun"
     ],	"eslint.alwaysShowStatus": true,
 	"editor.defaultFormatter": "dbaeumer.vscode-eslint",
 	"eslint.format.enable": true,
