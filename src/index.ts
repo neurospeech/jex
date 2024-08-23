@@ -91,7 +91,7 @@ export const invoke = async (name: string | XNode , args?: string[]) => {
         }
 
         let node = fx;
-        if (!node[isXNode]) {
+        if (typeof fx === "function") {
             node = fx(options);
         } else {
             for (const key in options) {
