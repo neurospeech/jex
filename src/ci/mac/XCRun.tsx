@@ -28,10 +28,15 @@ export const XCRun = {
         const apiKey =  join(privateKeys, `AuthKey_${apiKeyId}.p8`);
 
         const Install = async () => {
-            if (!existsSync(privateKeys)) {
-                await mkdir(privateKeys, { recursive: true });
+            try {
+                if (!existsSync(privateKeys)) {
+                    await mkdir(privateKeys, { recursive: true });
+                }
+                await writeFile(apiKey, apiPrivateKey, "utf8");
+            } catch (error) {
+                console.error(error);
+                throw new (Error as any)("Install failed", { cause: error });
             }
-            await writeFile(apiKey, apiPrivateKey, "utf8");
         };
 
         const Uninstall = async () => {
