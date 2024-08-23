@@ -36,11 +36,12 @@ export const FileSystem = {
     },
 
     async ReadJson({
-        path        
+        path,
+        then
     }: ThenTaskArgs<IFileArg>) {
         path = FileSystem.expand(path);
         const text = await readFile(path, "utf8");
-        return JSON.parse(text);
+        await then?.(JSON.parse(text));
     },
 
     async WriteJson({
@@ -54,7 +55,8 @@ export const FileSystem = {
 
     async MergeJson({
         path,
-        json     
+        json,
+        then
     }: TaskArgs<{ path: string; json: any; }>) {
         path = FileSystem.expand(path);
         let existing = {};
@@ -68,7 +70,7 @@ export const FileSystem = {
             existing = mergeJson(existing, json);
         }
         await writeFile(path, JSON.stringify(existing, void 0, 2));
-        return existing;
+        await then?.(existing);
     }
 
 };

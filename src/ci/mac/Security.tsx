@@ -55,11 +55,6 @@ export const Security = {
         then = void 0 as ({ friendlyName, p12 } ) => any
     }) {
         return <Batch>
-            <ParsePkcs12
-                certPath={certPath}
-                certPass={certPass}
-                then={then}
-                />
             <Run
                 cmd="security"
                 args={["import", certPath,
@@ -86,6 +81,11 @@ export const Security = {
                     "-d", "user",
                     "-s", keychainPath
                 ]}
+                />
+            <ParsePkcs12
+                certPath={certPath}
+                certPass={certPass}
+                then={then}
                 />
         </Batch>
     }
