@@ -38,9 +38,7 @@ export default class XNode {
         } catch (error) {
             failed?.(error);
             if (throwOnFail) {
-                if (this.log) {
-                    console.log(`failed ${this.name.name} at ${this.attributes?.location}`);
-                }
+                console.log(`failed ${this.name.name} at ${this.attributes?.location}`);
                 throw new (Error as any)(`Failed ${this.name.name} on ${this.attributes?.location}`, { cause: error });
             }
         }
