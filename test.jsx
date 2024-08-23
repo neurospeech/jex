@@ -1,4 +1,5 @@
 import { Batch, Run, invoke, Log, Prompt, mask } from "./dist/index.js";
+import assert from "assert";
 
 let version = "";
 
@@ -49,7 +50,7 @@ await invoke(<Batch>
         choices={[{
             title: "One"            
         }, {
-            titlte:"Two"
+            title:"Two"
         }, {
             title: "Three"
         }]}
@@ -60,5 +61,9 @@ await invoke(<Batch>
 
     { console.log(masked)}
     { console.log(masked.secret)}
+
+    { assert.fail("Failed")}
+
+    { console.log("Should not print")}
 
 </Batch>)
