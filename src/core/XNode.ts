@@ -25,6 +25,10 @@ export default class XNode {
         a.throwOnFail ??= true;
         const { then, failed, throwOnFail} = a;
         let result;
+        if (XNode.log) {
+            console.log(`Executing ${this.name}`);
+            console.log(a);
+        }
         try {
             result = await this.___invoke(a);
             await then?.(result);
@@ -38,10 +42,6 @@ export default class XNode {
     }
 
     private async ___invoke(a) {
-        if (XNode.log) {
-            console.log(`Executing ${this.name}`);
-            console.log(a);
-        }
         const result = this.name(a, ... this.children);
         if (result?.[isXNode]) {
             const ra = (result.attributes ??= {});
