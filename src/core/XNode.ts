@@ -25,8 +25,7 @@ export default class XNode {
         const { then, failed, throwOnFail = true} = a;
         let result;
         if (this.log) {
-            console.log(`Executing ${this.name.name}`);
-            console.log(this.attributes);
+            console.log(`Executing ${this.name.name} at ${this.attributes?.location}`);
         }
         try {
             result = await this.___invoke(a);
