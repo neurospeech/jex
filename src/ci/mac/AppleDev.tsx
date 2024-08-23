@@ -41,8 +41,8 @@ function getInfo(xml) {
     info.appid = getVal(xml, 'application-identifier')
     info.name = getVal(xml, 'Name')
     info.type = getType(xml)
-    var cers = xml.match(/<key>DeveloperCertificates<\/key>\n\s*<array>\n\s*((?:<data>\S+?<\/data>\n\s*)+)<\/array>/)[1]
-    info.cers = cers.match(/[^<>]{10,}/g)
+    var certs = xml.match(/<key>DeveloperCertificates<\/key>\n\s*<array>\n\s*((?:<data>\S+?<\/data>\n\s*)+)<\/array>/)[1]
+    info.certs = certs.match(/[^<>]{10,}/g)
     return info
 }
 
