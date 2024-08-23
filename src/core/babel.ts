@@ -6,6 +6,7 @@ import { format, join, parse } from "path";
 const presets = {
     sourceType: "module",
     sourceMaps: "inline" as any,
+    inputSourceMap: true,
     compact: false,
     comments: false,
     getModuleId: () => "v",
@@ -52,7 +53,7 @@ const presets = {
                                         (element.openingElement.attributes ??= []).push(
                                             babel.types.jsxAttribute(
                                                 babel.types.jsxIdentifier("location"),
-                                                babel.types.stringLiteral( `${state.filename} ${element.loc.start.line},${element.loc.start.column}`))
+                                                babel.types.stringLiteral( `${element.loc.filename ?? state.filename} ${element.loc.start.line},${element.loc.start.column}`))
                                         );
                                     }
 
