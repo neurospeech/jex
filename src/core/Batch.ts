@@ -2,7 +2,8 @@ import { isXNode } from "./isXNode.js";
 import XNode from "./XNode.js";
 
 export default async function Batch({
-    cleanup = void 0 as XNode
+    cleanup = void 0 as XNode,
+    log = void 0,
 }, ... commands: (() => XNode | string)[]) {
 
     try {
@@ -12,6 +13,7 @@ export default async function Batch({
                 element = element();
             }
             if (element?.[isXNode]) {
+                element.log = log;
                 await element.execute();
                 continue;
             }

@@ -2,8 +2,6 @@ import { isXNode } from "./isXNode.js";
 
 export default class XNode {
 
-    static log = false;
-
     public static create(
         // eslint-disable-next-line @typescript-eslint/ban-types
         name: Function,
@@ -11,6 +9,8 @@ export default class XNode {
         ... nodes: (() => (XNode | string))[]): XNode {
         return new XNode(name, attribs, nodes);
     }
+
+    private log = false;
 
     private constructor(
         public readonly name: Function,
@@ -25,8 +25,8 @@ export default class XNode {
         a.throwOnFail ??= true;
         const { then, failed, throwOnFail} = a;
         let result;
-        if (XNode.log) {
-            console.log(`Executing ${this.name}`);
+        if (this.log) {
+            console.log(`Executing ${this.name.name}`);
             console.log(a);
         }
         try {
