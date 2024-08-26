@@ -37,7 +37,7 @@ await invoke(<Batch>
         cmd="node"
         args={["--version"]}
         logData={false}
-        finished={(x) => version = x.text.trim() }
+        then={(x) => version = x.text.trim() }
         />
     { /** Execute Code in the curly braces, it will not print on console */
         version = `Installed node version is ${version}` }
@@ -76,6 +76,8 @@ const appPath = process.env.IOS_APP;
 const apiKeyId = process.env.IOS_API_KEY_ID;
 const issuerId = process.env.IOS_ISSUER_ID;
 
+let singingIdentity;
+
 await invoke(<Batch>
     <Security.CreateKeyChain
         path={keychainPath}
@@ -93,6 +95,7 @@ await invoke(<Batch>
         certPath={certPath}
         certPass={certPass}
         keychainPath={keychainPath}
+        then={(x) => ( signingIdentity = x.signingIdentity )}
         />
 
     <XCRun.UploadApp
