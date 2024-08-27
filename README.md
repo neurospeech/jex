@@ -127,3 +127,7 @@ await invoke(<Batch>
 # Library Authoring
 
 To create reusable functions for jex, you should not transform JSX to JS, instead use `jex parse folder` to transform your JSX to JS.
+
+# Samples
+
+For more samples, please look at samples folder in this repository.
