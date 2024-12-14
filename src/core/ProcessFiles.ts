@@ -18,7 +18,11 @@ export default async function ProcessFiles({
             }
             if (element?.[isXNode]) {
                 element.log = log;
-                await element.execute();
+                try {
+                    await element.execute();
+                } catch (error) {
+                    console.error(error.stack ?? error);
+                }
                 continue;
             }
         }
