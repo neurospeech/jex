@@ -1,13 +1,13 @@
 // load and execute script...
-
 import { unlink, unlinkSync } from "fs";
-import { Babel } from "./core/babel.js";
+import { Babel } from "./compiler/babel.js";
 import XNode from "./core/XNode.js";
 import { pathToFileURL } from "url";
 import { Secret } from "./core/Secret.js";
 import { cli } from "./core/CLI.js";
 import { resolve } from "path";
 import { isXNode } from "./core/isXNode.js";
+import { Watcher } from "./core/Watcher.js";
 
 export { default as XNode } from "./core/XNode.js";
 
@@ -49,6 +49,10 @@ const deleteFile = true;
 export const mask = (secret: string | Secret | TemplateStringsArray, ... a ) => secret instanceof Secret
     ? secret
     : new Secret(secret, ... a);
+
+export const watch = async (fx: () => any) => {
+    await Watcher.instance.watch(fx);
+};
 
 export const invoke = async (name: string | XNode , args?: string[]) => {
 

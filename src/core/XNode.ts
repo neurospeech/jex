@@ -1,5 +1,8 @@
 import { isXNode } from "./isXNode.js";
 
+(Symbol as any).dispose ??= Symbol("dispose");
+(Symbol as any).asyncDispose ??= Symbol("asyncDispose");
+
 export default class XNode {
 
     public static create(
@@ -39,6 +42,7 @@ export default class XNode {
             failed?.(error);
             if (throwOnFail) {
                 console.log(`failed ${this.name.name} at ${this.attributes?.location}`);
+                console.error(error.stack ?? error);
                 throw new (Error as any)(`Failed ${this.name.name} on ${this.attributes?.location}`, { cause: error.cause ?? error });
             }
         }
