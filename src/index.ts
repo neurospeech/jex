@@ -19,6 +19,8 @@ export { Prompt } from "./core/Prompt.js";
 
 export { default as readEnv } from "./core/readEnv.js";
 
+export { default as ProcessFiles } from "./core/ProcessFiles.js";
+
 
 // execute passed script...
 
