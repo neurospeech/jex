@@ -15,10 +15,12 @@ const ensureDir = (path: string) => {
 export default class LocalFile {
 
     public readonly baseName: string;
+    public readonly dir: string;
 
     constructor(public readonly path: string) {
         const p = parse(this.path);
         this.baseName = p.base;
+        this.dir = p.dir;
     }
 
     async write(data: Buffer | string, encoding?: BufferEncoding) {
