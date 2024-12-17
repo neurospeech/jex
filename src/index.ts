@@ -50,13 +50,8 @@ export const mask = (secret: string | Secret | TemplateStringsArray, ... a ) => 
     ? secret
     : new Secret(secret, ... a);
 
-export const watch = async (fx: () => any) => {
-    await Watcher.instance.watch(fx);
-};
-
-export const invoke = async (name: string | XNode , args?: string[]) => {
-
-
+const simpleInvoke = async (name: string | XNode, args?: string[]) => {
+    
     let js = "";
 
     try {
@@ -114,7 +109,17 @@ export const invoke = async (name: string | XNode , args?: string[]) => {
         }    
     }
 
+};
+
+export const invoke = async (name: string | XNode , args?: string[]) => {
+
+    if (process.argv.includes("--watch")) {
+        await Watcher.instance.watch(() => simpleInvoke(name, args));
+    }
+    await simpleInvoke(name, args);
 }
+
+
 
 if (process.argv.length) {
 
