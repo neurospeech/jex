@@ -118,7 +118,7 @@ export class Babel {
             return;
         }
         console.log(`Transforming ${fileOrFolder}`);
-        return await this.transformJSX(fileOrFolder, fileOrFolder.substring(0, fileOrFolder.length-1));
+        return await this.transformJSX(fileOrFolder, fileOrFolder + ".mjs");
     }
 
 }
