@@ -93,7 +93,7 @@ export class Babel {
         const result = await transform(finalCode, p);
         if (!outputFile) {
             const path = parse(file);
-            path.base += ".js";
+            path.base += ".mjs";
             const js = format(path);
             outputFile = js;
             await writeFile(outputFile, result.code, "utf8");
