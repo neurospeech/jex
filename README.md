@@ -6,7 +6,7 @@ Easy shell scripting with JavaScript and E4X (Similar to JSX)
 1. Bash, Powershell all scripting languages are limited in terms of language features.
 2. Editor support is also limited.
 3. Debugging is difficult.
-4. We wanted to JavaScript as shell script, along with JSX to organize large set of commands.
+4. We wanted to use JavaScript as shell script, along with JSX to organize large set of commands.
 5. So we created modified version of JSX which execute script little differently.
 
 # Jex Script
