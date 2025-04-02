@@ -54,7 +54,7 @@ export default async function ProcessFiles({
             const inputFile = new LocalFile(file);
 
 
-            let destFile = path.resolve(destDir, path.relative(file, baseDir));
+            let destFile = path.resolve(destDir, path.relative(baseDir, file));
 
             if (replaceExtension) {
                 const i = destFile.lastIndexOf(".");
