@@ -11,7 +11,7 @@ export default async function ProcessFiles({
     src,
     dest,
     cwd = process.cwd(),
-    srcBase,
+    base,
     command,
     appendExtension,
     replaceExtension,
@@ -21,7 +21,7 @@ export default async function ProcessFiles({
     src: string,
     dest: string,
     cwd: string,
-    srcBase: string,
+    base: string,
     appendExtension?: string,
     replaceExtension?: string,
     command: ({ file, dest }: { file: LocalFile, dest: LocalFile}) => XNode | (() => XNode), cleanup?: XNode, log: any }) {
@@ -30,13 +30,13 @@ export default async function ProcessFiles({
 
         let [_, root] = /^([^\*]+)/.exec(src);
 
-        root = srcBase ?? root;
+        root = base ?? root;
 
         Watcher.instance.watchFolder(root);
 
         const lm = Watcher.instance.lastRunTime;
 
-        const baseDir = path.resolve(cwd, srcBase);
+        const baseDir = path.resolve(cwd, base);
         const destDir = path.resolve(cwd, dest);
 
         for await (const file of globIterate(src, {
