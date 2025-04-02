@@ -4,11 +4,14 @@ import XNode from "./XNode.js";
 import { Watcher } from "./Watcher.js";
 import { stat } from "fs/promises";
 import LocalFile from "./LocalFile.js";
+import path from "path";
 
 
 export default async function ProcessFiles({
     src,
     dest,
+    cwd = process.cwd(),
+    srcBase,
     command,
     appendExtension,
     replaceExtension,
@@ -17,6 +20,8 @@ export default async function ProcessFiles({
  }: {
     src: string,
     dest: string,
+    cwd: string,
+    srcBase: string,
     appendExtension?: string,
     replaceExtension?: string,
     command: ({ file, dest }: { file: LocalFile, dest: LocalFile}) => XNode | (() => XNode), cleanup?: XNode, log: any }) {
@@ -25,11 +30,19 @@ export default async function ProcessFiles({
 
         let [_, root] = /^([^\*]+)/.exec(src);
 
+        root = srcBase ?? root;
+
         Watcher.instance.watchFolder(root);
 
         const lm = Watcher.instance.lastRunTime;
 
-        for await (const file of globIterate(src)) {
+        const baseDir = path.resolve(cwd, root);
+        const destDir = path.resolve(cwd, dest);
+
+        for await (const file of globIterate(src, {
+            absolute: true,
+            cwd
+        })) {
 
             if (lm) {
                 const s = await stat(file);
@@ -38,7 +51,10 @@ export default async function ProcessFiles({
                 }
             }   
 
-            let destFile = dest + file.substring(root.length);
+            const inputFile = new LocalFile(file);
+
+
+            let destFile = path.resolve(destDir, path.relative(file, baseDir));
 
             if (replaceExtension) {
                 const i = destFile.lastIndexOf(".");
@@ -50,7 +66,11 @@ export default async function ProcessFiles({
                 destFile = destFile + appendExtension;
             }
 
-            let element = await command({ file: new LocalFile(file), dest: new LocalFile(destFile) }) as any;
+            let element = await command({
+                file: inputFile,
+                dest: new LocalFile(destFile)
+            }) as any;
+
             while (typeof element === "function") {
                 element = element();
             }
