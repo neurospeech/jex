@@ -36,7 +36,7 @@ export default async function ProcessFiles({
 
         const lm = Watcher.instance.lastRunTime;
 
-        const baseDir = path.resolve(cwd, root);
+        const baseDir = path.resolve(cwd, srcBase);
         const destDir = path.resolve(cwd, dest);
 
         for await (const file of globIterate(src, {
