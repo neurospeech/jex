@@ -118,7 +118,7 @@ export class Babel {
             return;
         }
         const path = parse(fileOrFolder);
-        const output = fileOrFolder.replace(path.base, path.name + ".mjs");
+        const output = fileOrFolder.replace(path.base, path.name + ".js");
         console.log(`Transforming ${fileOrFolder} to ${output}`);
         return await this.transformJSX(fileOrFolder, output);
     }
