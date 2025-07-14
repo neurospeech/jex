@@ -92,7 +92,7 @@ export class Babel {
         }
         const result = await transform(finalCode, p);
         if (!outputFile) {
-            const path = parse(file);
+            let path = parse(file);
             path.base += ".mjs";
             const js = format(path);
             outputFile = js;
@@ -117,8 +117,10 @@ export class Babel {
         if (!fileOrFolder.endsWith(".jsx")) {
             return;
         }
-        console.log(`Transforming ${fileOrFolder}`);
-        return await this.transformJSX(fileOrFolder, fileOrFolder + ".mjs");
+        const path = parse(fileOrFolder);
+        const output = path.name + ".mjs";
+        console.log(`Transforming ${fileOrFolder} to ${output}`);
+        return await this.transformJSX(fileOrFolder, output);
     }
 
 }
