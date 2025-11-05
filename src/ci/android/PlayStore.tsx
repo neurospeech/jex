@@ -20,7 +20,7 @@ export const PlayStore = {
         whatsNewDir = void 0,
         mappingFile = void 0,
         debugSymbols = void 0,
-        changesNotSentForReview = void 0,
+        changesNotSentForReview = true,
         existingEditId = void 0,
     }) {
 
