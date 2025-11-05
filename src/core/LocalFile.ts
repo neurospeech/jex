@@ -27,7 +27,7 @@ export default class LocalFile {
         const dir = dirname(this.path);
         ensureDir(dir);
 
-        return writeFile(this.path, data);
+        return writeFile(this.path, data as any);
     }
 
 }

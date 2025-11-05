@@ -282,7 +282,7 @@ async function zipFileAddDirectory(root: JSZip | null, dirPath: string, rootPath
 
 	if (!fileStat.isDirectory()) {
 		const data = readFileSync(newRootPath);
-		root.file(dirPath, data);
+		root.file(dirPath, data as any);
 		return root;
 	}
 
