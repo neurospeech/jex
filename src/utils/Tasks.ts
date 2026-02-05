@@ -3,13 +3,19 @@ import Queue from "./Queue.js";
 
 const sleep = (n) => new Promise((r) => setTimeout(r, n));
 
-class TaskManager {
+export default class TaskManager implements AsyncDisposable {
 
     public rateLimit = availableParallelism();
 
     private running: Set<any> = new Set();
 
     private waiting: Queue<{ resolve, reject, fx }> = new Queue();
+
+    [Symbol.asyncDispose]() {
+        return new Promise<void>((resolve, reject) => {
+            this.runAfterEnd(resolve);
+        });    
+    }
 
     queueRun<TR>(fx: (... a: any[]) => Promise<TR>): Promise<TR> {
 
@@ -81,13 +87,3 @@ class TaskManager {
     }
 
 }
-
-const tm = new TaskManager();
-
-export const Tasks = {
-
-    queue(fx: () => any) {
-        return tm.queueRun(fx);
-    }
-
-};

@@ -3,6 +3,7 @@ import { homedir } from "os";
 import {TaskArgs, ThenTaskArgs } from "../core/ITask.js";
 import { existsSync } from "fs";
 import { join, relative, resolve } from "path";
+import TaskManager from "./Tasks.js";
 
 export interface IFileArg {
     path: string;
@@ -41,12 +42,12 @@ export const FileSystem = {
         dest = FileSystem.expand(dest);
         console.log(`copy ${src} ${dest}`);
         const files = await readdir(src, { recursive: true, withFileTypes: true });
-        const tasks = [];
+        await using tm = new TaskManager();
         for (const file of files) {
             const srcPath = join(file.parentPath, file.name);
             const relativePath = relative(srcPath, src);
             const destPath = resolve(dest, relativePath);
-            tasks.push(Tasks) copyFile(srcPath, destPath);
+            tm.queueRun(() => copyFile(srcPath, destPath));
         }
     },
 
