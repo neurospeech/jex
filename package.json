@@ -11,6 +11,9 @@
   "bin": {
     "jex": "bin/jex"
   },
+  "repository": {
+    "url": "https://github.com/neurospeech/jex"
+  },
   "author": "",
   "license": "ISC",
   "dependencies": {
