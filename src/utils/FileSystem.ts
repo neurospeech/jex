@@ -1,7 +1,8 @@
-import { copyFile, mkdir, readFile, rm, unlink, writeFile } from "fs/promises";
+import { copyFile, mkdir, readdir, readFile, rm, unlink, writeFile } from "fs/promises";
 import { homedir } from "os";
 import {TaskArgs, ThenTaskArgs } from "../core/ITask.js";
 import { existsSync } from "fs";
+import { join, relative, resolve } from "path";
 
 export interface IFileArg {
     path: string;
@@ -33,6 +34,20 @@ export const FileSystem = {
         path = FileSystem.expand(path);
         console.log(`mkdir ${path}`);
         await mkdir( path, { recursive: true });
+    },
+
+    async CopyFolder({ src, dest }: TaskArgs<{ src: string, dest: string}> ) {
+        src = FileSystem.expand(src);
+        dest = FileSystem.expand(dest);
+        console.log(`copy ${src} ${dest}`);
+        const files = await readdir(src, { recursive: true, withFileTypes: true });
+        const tasks = [];
+        for (const file of files) {
+            const srcPath = join(file.parentPath, file.name);
+            const relativePath = relative(srcPath, src);
+            const destPath = resolve(dest, relativePath);
+            tasks.push(Tasks) copyFile(srcPath, destPath);
+        }
     },
 
     async CopyFile({ src, dest }: TaskArgs<{ src: string, dest: string}> ) {
