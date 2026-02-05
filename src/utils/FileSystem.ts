@@ -1,7 +1,6 @@
-import { copyFile, mkdir, readFile, unlink, writeFile } from "fs/promises";
-import { homedir, userInfo } from "os";
-import { join } from "path";
-import {ITaskArgs, TaskArgs, ThenTaskArgs } from "../core/ITask.js";
+import { copyFile, mkdir, readFile, rm, unlink, writeFile } from "fs/promises";
+import { homedir } from "os";
+import {TaskArgs, ThenTaskArgs } from "../core/ITask.js";
 import { existsSync } from "fs";
 
 export interface IFileArg {
@@ -15,24 +14,38 @@ export const FileSystem = {
             ? `${homedir()}${path.substring(1)}`
             : path;
     },
+
+    async RemoveDir({
+        path,
+        force = false,
+        recursive = false}: TaskArgs<{ path: string, force?: boolean, recursive?: boolean }>) {
+        path = FileSystem.expand(path);
+        console.log(`rm ${path} -rf`);
+        await rm(path, {
+            maxRetries: 3,
+            retryDelay: 300,
+            force,
+            recursive
+        });
+    },
   
     async Mkdir({ path }: TaskArgs<IFileArg> ) {
         path = FileSystem.expand(path);
-        await mkdir( path, { recursive: true });
         console.log(`mkdir ${path}`);
+        await mkdir( path, { recursive: true });
     },
 
     async CopyFile({ src, dest }: TaskArgs<{ src: string, dest: string}> ) {
         src = FileSystem.expand(src);
         dest = FileSystem.expand(dest);
+        console.log(`cp ${src} ${dest}`);
         await copyFile( src, dest);
-        console.log(`Copied ${src} => ${dest}`);
     },
 
     async DeleteFile({ path}: TaskArgs<IFileArg>) {
         path = FileSystem.expand(path);
+        console.log(`unlink ${path}`);
         await unlink(path);
-        console.log(`File ${path} deleted.`);
     },
 
     async ReadJson({
