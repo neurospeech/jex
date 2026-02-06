@@ -60,10 +60,15 @@ export const FileSystem = {
         }
     },
 
-    async CopyFile({ src, dest }: TaskArgs<{ src: string, dest: string}> ) {
+    async CopyFile({ src, dest, overwrite = false }: TaskArgs<{ src: string, dest: string, overwrite?: boolean}> ) {
         src = FileSystem.expand(src);
         dest = FileSystem.expand(dest);
-        console.log(`cp ${src} ${dest}`);
+        console.log(`cp ${overwrite ? " -f": ""} ${src} ${dest}`);
+        if (overwrite) {
+            if (existsSync(dest)) {
+                await unlink(dest);
+            }
+        }
         await copyFile( src, dest);
     },
 
