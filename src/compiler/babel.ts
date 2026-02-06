@@ -26,7 +26,8 @@ const presets = {
                                     const targetFile = resolve(Babel.cwd, source);
                                     Babel.pending.push(targetFile);
                                 }
-                                e.source.value = source.substring(0, source.length-1);
+                                // e.source.value = source.substring(0, source.length-1);
+                                e.source.value = e.source.value + ".mjs";
                             }
                             return node;
                         },
