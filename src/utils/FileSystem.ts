@@ -42,12 +42,11 @@ export const FileSystem = {
         dest = FileSystem.expand(dest);
         console.log(`copy ${src} ${dest}`);
         const files = await readdir(src, { recursive: true, withFileTypes: true });
-        await using tm = new TaskManager();
         for (const file of files) {
             const srcPath = join(file.parentPath, file.name);
             const relativePath = relative(srcPath, src);
             const destPath = resolve(dest, relativePath);
-            tm.queueRun(() => copyFile(srcPath, destPath));
+            await copyFile(srcPath, destPath);
         }
     },
 
