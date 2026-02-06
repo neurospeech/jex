@@ -45,7 +45,7 @@ export const FileSystem = {
         for (const file of files) {
             const srcPath = join(file.parentPath, file.name);
             const relativePath = relative( dirname(srcPath), src);
-            const destPath = resolve(dest, relativePath);
+            const destPath = join(dest, relativePath);
             await copyFile(srcPath, destPath);
         }
     },
