@@ -60,6 +60,15 @@ const simpleInvoke = async (name: string | XNode, args?: string[]) => {
         }
         if (name.endsWith(".jsx")) {
             js = await Babel.transformJSX(name);
+
+            while(Babel.pending.length) {
+                const last = Babel.pending.pop();
+                if (Babel.done.has(last)) {
+                    continue;
+                }
+                await Babel.transformJSX(last);
+            }
+
             name = js;
         }
 
