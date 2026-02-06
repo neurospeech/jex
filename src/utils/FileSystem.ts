@@ -46,6 +46,7 @@ export const FileSystem = {
             const srcPath = join(file.parentPath, file.name);
             const relativePath = relative( dirname(srcPath), src);
             const destPath = join(dest, relativePath);
+            console.log(`cp ${srcPath} ${destPath}`);
             await copyFile(srcPath, destPath);
         }
     },
