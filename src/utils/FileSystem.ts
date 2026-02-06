@@ -47,6 +47,7 @@ export const FileSystem = {
             const relativePath = srcPath.substring(src.length);
             const destPath = resolve(join(dest, relativePath));
             if (file.isDirectory()) {
+                console.log(`mkdir -p ${srcPath} ${destPath}`);
                 await mkdir(destPath, { recursive: true });
                 continue;
             }
