@@ -128,6 +128,22 @@ await invoke(<Batch>
 
 To create reusable functions for jex, you should not transform JSX to JS, instead use `jex parse folder` to transform your JSX to JS.
 
+# Commands
+
+## Invoke
+```
+npx jex file.jsx
+#OR 
+jex file.jsx
+```
+## Parse
+```
+npx jex parse folder
+#OR 
+jex parse folder
+```
+
+
 # Samples
 
 For more samples, please look at samples folder in this repository.
