@@ -44,7 +44,7 @@ export const FileSystem = {
         const files = await readdir(src, { recursive: true, withFileTypes: true });
         for (const file of files) {
             const srcPath = join(file.parentPath, file.name);
-            const relativePath = relative(srcPath, dirname(src));
+            const relativePath = relative(file.parentPath, src);
             const destPath = resolve(dest, relativePath);
             console.log(`cp ${srcPath} ${destPath}`);
             await copyFile(srcPath, destPath);
