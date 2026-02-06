@@ -6,7 +6,8 @@
   "type": "module",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 0",
-    "postversion": "git push --follow-tags"
+    "postversion": "git push --follow-tags",
+    "push": "git add -A && git commit -m \"dep vb\" && npm version patch"
   },
   "bin": {
     "jex": "bin/jex"

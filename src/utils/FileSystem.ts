@@ -46,6 +46,14 @@ export const FileSystem = {
             const srcPath = join(file.parentPath, file.name);
             const relativePath = srcPath.substring(src.length);
             const destPath = resolve(join(dest, relativePath));
+            if (file.isDirectory()) {
+                await mkdir(destPath, { recursive: true });
+                continue;
+            }
+            const dir = dirname(destPath);
+            if (!existsSync(dir)) {
+                await mkdir(dir, { recursive: true });
+            }
             console.log(`cp ${srcPath} ${destPath}`);
             await copyFile(srcPath, destPath);
         }
