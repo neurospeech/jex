@@ -2,7 +2,7 @@ import { copyFile, mkdir, readdir, readFile, rm, unlink, writeFile } from "fs/pr
 import { homedir } from "os";
 import {TaskArgs, ThenTaskArgs } from "../core/ITask.js";
 import { existsSync } from "fs";
-import { join, relative, resolve } from "path";
+import { dirname, join, relative, resolve } from "path";
 import TaskManager from "./Tasks.js";
 
 export interface IFileArg {
@@ -44,7 +44,7 @@ export const FileSystem = {
         const files = await readdir(src, { recursive: true, withFileTypes: true });
         for (const file of files) {
             const srcPath = join(file.parentPath, file.name);
-            const relativePath = relative(srcPath, src);
+            const relativePath = relative( dirname(srcPath), src);
             const destPath = resolve(dest, relativePath);
             await copyFile(srcPath, destPath);
         }
