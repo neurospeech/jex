@@ -1,7 +1,7 @@
 import { transform } from "@babel/core";
 import { statSync } from "fs";
 import { readdir, readFile, writeFile } from "fs/promises";
-import { format, join, parse, resolve } from "path";
+import { dirname, format, join, parse, resolve } from "path";
 
 const presets = {
     sourceType: "module",
@@ -23,7 +23,7 @@ const presets = {
                             if (source?.endsWith(".jsx")) {
                                 // resolve...
                                 if (source?.startsWith(".")) {
-                                    const targetFile = resolve(Babel.currentFile, source);
+                                    const targetFile = resolve(Babel.cwd, source);
                                     Babel.pending.push(targetFile);
                                 }
                                 e.source.value = source.substring(0, source.length-1);
@@ -90,10 +90,10 @@ export class Babel {
     static pending = [];
     static done = new Set<string>();
 
-    static currentFile: string;
+    static cwd: string;
 
     static async transformJSX(file: string, outputFile?: string) {
-        Babel.currentFile = file;
+        Babel.cwd = dirname(file);
         Babel.done.add(file);
         let code = await readFile(file, "utf8");
         const finalCode = `${inject};${code}`;
