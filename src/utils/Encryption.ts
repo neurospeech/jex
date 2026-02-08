@@ -57,7 +57,7 @@ export const Encryption = {
             // --- Configuration ---
             const algorithm = 'aes-256-cbc';
             // Default OpenSSL values for -pbkdf2 without -iter or -md specified
-            const iterations = 100000; // OpenSSL 3.0+ default iterations
+            const iterations = 10000; // OpenSSL 3.0+ default iterations
             const digest = 'sha256';
             const keyLength = 32; // 256 bits
             const ivLength = 16; // 128 bits

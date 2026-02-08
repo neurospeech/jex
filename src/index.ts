@@ -147,7 +147,7 @@ if (process.argv.length) {
     cli.command("enc")
         .execute(async (fx, options, args) => {
 
-            const result = await prompts([{ name: "Passphrase", type: "password" }]);
+            const result = await prompts([{ name: "Passphrase", message: "Enter passphrase", type: "password" }]);
 
             const passphrase = result.Passphrase;
 
@@ -168,6 +168,33 @@ if (process.argv.length) {
                 await unlink(input);
             }
         });
+
+    cli.command("dec")
+        .execute(async (fx, options, args) => {
+
+            const result = await prompts([{ name: "Passphrase", message: "Enter passphrase", type: "password" }]);
+
+            const passphrase = result.Passphrase;
+
+            const input = args[0];
+
+            const output = args[1] ?? input.replace(/\.enc$/, "");
+
+            await Encryption.Aes256Cbc.Decrypt({
+                input,
+                output,
+                passphrase
+            });
+
+            const confirm = await prompts([{
+                name: "Delete",
+                type: "confirm",
+                initial: true,
+                message: "Do you want to delete the original file?"}]);
+            if(/true/i.test(confirm.Delete)) {
+                await unlink(input);
+            }
+        });        
 
     cli.defaultCommand("invoke")
         .execute((fx, options, a) => {
