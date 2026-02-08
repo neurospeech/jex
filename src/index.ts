@@ -1,5 +1,5 @@
 // load and execute script...
-import { unlink, unlinkSync } from "fs";
+import { unlinkSync } from "fs";
 import { Babel } from "./compiler/babel.js";
 import XNode from "./core/XNode.js";
 import { pathToFileURL } from "url";
@@ -8,6 +8,9 @@ import { cli } from "./core/CLI.js";
 import { resolve } from "path";
 import { isXNode } from "./core/isXNode.js";
 import { Watcher } from "./core/Watcher.js";
+import { Encryption } from "./utils/Encryption.js";
+import prompts from "prompts";
+import { unlink } from "fs/promises";
 
 export { default as XNode } from "./core/XNode.js";
 
@@ -138,6 +141,31 @@ if (process.argv.length) {
             // parse file...
             for (const file of args) {
                 await Babel.transform(file);
+            }
+        });
+
+    cli.command("enc")
+        .execute(async (fx, options, args) => {
+
+            const result = await prompts([{ name: "Passphrase", type: "password" }]);
+
+            const passphrase = result.Passphrase;
+
+            const input = args[0];
+
+            await Encryption.Aes256Cbc.Encrypt({
+                input,
+                output: `${input}.enc`,
+                passphrase
+            });
+
+            const confirm = await prompts([{
+                name: "Delete",
+                type: "confirm",
+                initial: true,
+                message: "Do you want to delete the original file?"}]);
+            if(/true/i.test(confirm.Delete)) {
+                await unlink(input);
             }
         });
 
