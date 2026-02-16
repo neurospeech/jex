@@ -8,9 +8,10 @@ import { cli } from "./core/CLI.js";
 import { resolve } from "path";
 import { isXNode } from "./core/isXNode.js";
 import { Watcher } from "./core/Watcher.js";
-import { Encryption } from "./utils/Encryption.js";
+export { Encryption } from "./utils/Encryption.js";
 import prompts from "prompts";
 import { unlink } from "fs/promises";
+import { Encryption } from "./utils/Encryption.js";
 
 export { default as XNode } from "./core/XNode.js";
 
@@ -23,6 +24,7 @@ export { Prompt } from "./core/Prompt.js";
 export { default as readEnv } from "./core/readEnv.js";
 
 export { default as ProcessFiles } from "./core/ProcessFiles.js";
+
 
 
 // execute passed script...
