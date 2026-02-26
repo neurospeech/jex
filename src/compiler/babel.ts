@@ -23,12 +23,11 @@ const presets = {
                             if (source?.endsWith(".jsx")) {
                                 // resolve...
                                 if (source?.startsWith(".")) {
-                                    const targetFile = resolve(Babel.cwd, source);
                                     if (Babel.preCompilation) {
-                                        const jsFile = targetFile.substring(0, targetFile.length - 1);
-                                        e.source.value = jsFile;
+                                        e.source.value = source.substring(0, source.length - 1);
                                         return node;
                                     }
+                                    const targetFile = resolve(Babel.cwd, source);
                                     Babel.pending.push(targetFile);
                                 }
                                 // e.source.value = source.substring(0, source.length-1);
