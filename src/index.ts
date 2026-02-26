@@ -141,6 +141,7 @@ if (process.argv.length) {
     cli.command("parse")
         .execute(async (fx, options, args) => {
             // parse file...
+            Babel.preCompilation = true;
             for (const file of args) {
                 await Babel.transform(file);
             }

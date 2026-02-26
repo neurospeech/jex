@@ -24,9 +24,8 @@ const presets = {
                                 // resolve...
                                 if (source?.startsWith(".")) {
                                     const targetFile = resolve(Babel.cwd, source);
-                                    const jsFile = targetFile.substring(0, targetFile.length - 1);
-                                    const  hasJS = existsSync(jsFile);
-                                    if (hasJS) {
+                                    if (Babel.preCompilation) {
+                                        const jsFile = targetFile.substring(0, targetFile.length - 1);
                                         e.source.value = jsFile;
                                         return node;
                                     }
@@ -96,6 +95,8 @@ export class Babel {
 
     static pending = [];
     static done = new Set<string>();
+
+    static preCompilation = false;
 
     static cwd: string;
 
