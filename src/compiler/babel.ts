@@ -1,5 +1,5 @@
 import { transform } from "@babel/core";
-import { statSync } from "fs";
+import { existsSync, statSync } from "fs";
 import { readdir, readFile, writeFile } from "fs/promises";
 import { dirname, format, join, parse, resolve } from "path";
 
@@ -24,6 +24,12 @@ const presets = {
                                 // resolve...
                                 if (source?.startsWith(".")) {
                                     const targetFile = resolve(Babel.cwd, source);
+                                    const jsFile = targetFile.substring(0, targetFile.length - 1);
+                                    const  hasJS = existsSync(jsFile);
+                                    if (hasJS) {
+                                        e.source.value = jsFile;
+                                        return node;
+                                    }
                                     Babel.pending.push(targetFile);
                                 }
                                 // e.source.value = source.substring(0, source.length-1);
