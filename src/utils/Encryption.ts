@@ -1,5 +1,5 @@
 import crypto from "node:crypto";
-import { createReadStream, createWriteStream } from "node:fs";
+import { createReadStream, createWriteStream, writeFileSync } from "node:fs";
 import { readFile, writeFile } from "node:fs/promises";
 import { pipeline } from "node:stream/promises";
 
@@ -37,15 +37,26 @@ export const Encryption = {
             // 3. Create the cipher
             const cipher = crypto.createCipheriv(algorithm, key, iv);
 
-            // 4. Create read/write streams and pipeline the encryption
-            const inputStream = createReadStream(input);
-            const outputStream = createWriteStream(output);
+            const inputBuffer = await readFile(input);
 
-            // 5. Write the 'Salted__' prefix and the salt to the output file first
-            outputStream.write(Buffer.from('Salted__', 'utf8'));
-            outputStream.write(salt);
+            const  outputBuffer = Buffer.concat([
+                Buffer.from('Salted__', 'utf8'),
+                salt,
+                cipher.update(inputBuffer),
+                cipher.final()
+            ]);
 
-            await pipeline(inputStream, cipher, outputStream);
+            await writeFile(output, outputBuffer);
+
+            // // 4. Create read/write streams and pipeline the encryption
+            // const inputStream = createReadStream(input);
+            // const outputStream = createWriteStream(output);
+
+            // // 5. Write the 'Salted__' prefix and the salt to the output file first
+            // outputStream.write(Buffer.from('Salted__', 'utf8'));
+            // outputStream.write(salt);
+
+            // await pipeline(inputStream, cipher, outputStream);
         },
 
         async Decrypt({
