@@ -20,6 +20,8 @@ export const Encryption = {
             passphrase
         }: IEncryptFileParams) {
 
+            console.log(`Decrypting ${input} to ${output}`)
+
             const algorithm = 'aes-256-cbc';
             const saltLength = 8;
             const ivLength = 16;
