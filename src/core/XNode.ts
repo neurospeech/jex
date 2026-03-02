@@ -35,8 +35,8 @@ export default class XNode {
 
         let { then } = a;
         if (then) {
-            a.then = () => {
-                const r = then();
+            a.then = (input) => {
+                const r = then(input);
                 then = void 0;
                 return r;
             };
