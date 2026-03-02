@@ -152,7 +152,7 @@ if (process.argv.length) {
 
             const result = await prompts([{ name: "Passphrase", message: "Enter passphrase", type: "password" }]);
 
-            const passphrase = result.Passphrase;
+            const passphrase = result.Passphrase.trim();
 
             const input = args[0];
 
@@ -177,7 +177,7 @@ if (process.argv.length) {
 
             const result = await prompts([{ name: "Passphrase", message: "Enter passphrase", type: "password" }]);
 
-            const passphrase = result.Passphrase;
+            const passphrase = result.Passphrase.trim();
 
             const input = args[0];
 
