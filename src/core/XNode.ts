@@ -26,6 +26,13 @@ export default class XNode {
     async execute() {
         const a = { ... this.attributes ?? {} };
         const { failed, throwOnFail = true} = a;
+
+        /**
+         * We want to prevent duplicate then invocation, if the handler invokes `then`,
+         * we will not invoke it after execution. This is the reason we had to add
+         * this complicated execute method.
+         */
+
         let { then } = a;
         if (then) {
             a.then = () => {
