@@ -65,7 +65,7 @@ export const Encryption = {
             passphrase
         }: IEncryptFileParams) {
 
-            console.log(`Decrypting ${input} to ${output}`)
+            console.log(`Decrypting ${input} to ${output} with ${Array.from(passphrase).map((v, i) => i === 0 ? v : "x").join("")}`)
 
             // --- Configuration ---
             const algorithm = 'aes-256-cbc';
