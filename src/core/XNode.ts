@@ -50,6 +50,14 @@ export default class XNode {
     }
 
     private async ___invoke(a) {
+        let then = a.then;
+        if (then) {
+            a.then = () => {
+                const r1 = then();
+                then = void 0;
+                return r1;
+            };
+        }
         const result = this.name(a, ... this.children);
         if (result?.[isXNode]) {
             const ra = (result.attributes ??= {});
@@ -57,7 +65,11 @@ export default class XNode {
             ra.throwOnFail ??= a.throwOnFail;
             result.log = this.log;
             ra.log ??= this.log;
-            return await result.execute();
+            const r = await result.execute();
+            const p = then?.(r);
+            if (p?.then) {
+                await p;
+            }
         }
         return result;
     }
